@@ -5,7 +5,7 @@ import {
   ArrowRight, Terminal, TrendingUp
 } from 'lucide-react';
 import { useScans } from '../hooks/useScans';
-import StatusBadge, { getScanStatus } from '../components/StatusBadge';
+import StatusBadge from '../components/StatusBadge';
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell
 } from 'recharts';
@@ -50,9 +50,9 @@ export default function Dashboard() {
   const { data: scans = [], isLoading } = useScans();
 
   const total     = scans.length;
-  const completed = scans.filter((s) => getScanStatus(s.result) === 'completed').length;
-  const running   = scans.filter((s) => getScanStatus(s.result) === 'running').length;
-  const errors    = scans.filter((s) => getScanStatus(s.result) === 'error').length;
+  const completed = scans.filter((s) => s.status === 'completed').length;
+  const running   = scans.filter((s) => s.status === 'running' || s.status === 'pending').length;
+  const errors    = scans.filter((s) => s.status === 'failed').length;
 
   const typeCounts = scans.reduce((acc, s) => {
     acc[s.scan_type] = (acc[s.scan_type] || 0) + 1;
@@ -220,7 +220,7 @@ export default function Dashboard() {
                     </div>
                   </div>
                   <div className="flex items-center gap-4 flex-shrink-0">
-                    <StatusBadge result={scan.result} />
+                    <StatusBadge scan={scan} />
                     <span className="text-xs text-gray-700 hidden md:block">
                       {new Date(scan.created_at).toLocaleDateString()}
                     </span>

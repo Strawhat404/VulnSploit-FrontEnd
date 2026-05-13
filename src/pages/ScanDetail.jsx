@@ -5,7 +5,7 @@ import {
   RefreshCw, Calendar, Hash, Zap, History
 } from 'lucide-react';
 import { useScan } from '../hooks/useScans';
-import StatusBadge, { getScanStatus } from '../components/StatusBadge';
+import StatusBadge from '../components/StatusBadge';
 import TerminalOutput from '../components/TerminalOutput';
 
 function InfoRow({ icon: Icon, label, value }) {
@@ -22,8 +22,8 @@ export default function ScanDetail() {
   const { id } = useParams();
   const { data: scan, isLoading, refetch, isFetching } = useScan(id);
 
-  const status = scan ? getScanStatus(scan.result) : null;
-  const isRunning = status === 'running';
+  const status    = scan?.status ?? null;
+  const isRunning = status === 'running' || status === 'pending';
 
   return (
     <div className="min-h-screen bg-black pt-20 pb-12 px-4">
@@ -73,7 +73,7 @@ export default function ScanDetail() {
                 </h1>
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
-                <StatusBadge result={scan.result} size="md" />
+                <StatusBadge scan={scan} size="md" />
                 <button
                   onClick={() => refetch()}
                   disabled={isFetching}
@@ -118,6 +118,9 @@ export default function ScanDetail() {
                   <InfoRow icon={Cpu}      label="Type"    value={scan.scan_type} />
                   <InfoRow icon={Calendar} label="Started" value={new Date(scan.created_at).toLocaleString()} />
                   <InfoRow icon={Clock}    label="Status"  value={status?.toUpperCase() || '—'} />
+                  {scan.completed_at && (
+                    <InfoRow icon={Calendar} label="Finished" value={new Date(scan.completed_at).toLocaleString()} />
+                  )}
                 </div>
 
                 {/* Run another scan CTA */}

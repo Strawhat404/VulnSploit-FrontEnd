@@ -177,6 +177,12 @@ export default function Landing() {
               <Lock className="w-4 h-4" />
               <span>LOGIN</span>
             </Link>
+            <Link
+              to="/register"
+              className="hidden sm:flex items-center gap-2 px-4 py-2 border border-blue-500/30 text-blue-400 text-sm font-bold tracking-widest rounded hover:bg-blue-500/10 transition-all"
+            >
+              REGISTER
+            </Link>
           </div>
         </div>
       </nav>

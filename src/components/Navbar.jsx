@@ -3,25 +3,29 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Shield, History, LayoutDashboard, LogOut,
-  Zap, Menu, X, User, ChevronDown
+  Zap, Menu, X, User, ChevronDown, FileText, Radar
 } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 
 const navLinks = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/scan',      label: 'New Scan',  icon: Zap },
+  { to: '/recon/new', label: 'Full Recon',icon: Radar },
   { to: '/history',   label: 'History',   icon: History },
+  { to: '/reports',   label: 'Reports',   icon: FileText },
 ];
 
 function isActive(pathname, to) {
   if (to === '/history') return pathname === '/history' || pathname.startsWith('/scans/');
+  if (to === '/reports') return pathname === '/reports' || pathname.startsWith('/reports/') || pathname.startsWith('/recon/');
+  if (to === '/recon/new') return pathname === '/recon/new';
   return pathname === to;
 }
 
 export default function Navbar() {
   const location  = useLocation();
   const navigate  = useNavigate();
-  const { logout, isAuthenticated } = useAuthStore();
+  const { logout, isAuthenticated, username } = useAuthStore();
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -139,7 +143,7 @@ export default function Navbar() {
                       >
                         <div className="px-3 py-2.5 border-b border-[#1a1d26]">
                           <p className="text-xs text-gray-500 font-mono">SIGNED IN AS</p>
-                          <p className="text-xs text-blue-400 font-mono font-semibold mt-0.5">admin</p>
+                          <p className="text-xs text-blue-400 font-mono font-semibold mt-0.5">{username || 'user'}</p>
                         </div>
                         <button
                           onClick={handleLogout}
@@ -239,7 +243,7 @@ export default function Navbar() {
                   </div>
                   <div>
                     <p className="text-xs text-gray-500 font-mono">SIGNED IN AS</p>
-                    <p className="text-xs text-blue-400 font-mono font-semibold">admin</p>
+                    <p className="text-xs text-blue-400 font-mono font-semibold">{username || 'user'}</p>
                   </div>
                 </div>
                 <button

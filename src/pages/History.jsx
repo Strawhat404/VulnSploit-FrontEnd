@@ -2,21 +2,26 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-  History as HistoryIcon, Search, Terminal,
-  ArrowRight, Filter, Calendar, Target
+  Search, Terminal, ArrowRight,
+  Filter, Calendar, Target, ChevronLeft, ChevronRight
 } from 'lucide-react';
-import { useScans } from '../hooks/useScans';
-import StatusBadge, { getScanStatus } from '../components/StatusBadge';
+import { useScans, useScansMeta } from '../hooks/useScans';
+import StatusBadge from '../components/StatusBadge';
 
-const ALL_TYPES = 'all';
+const ALL = 'all';
 
 export default function History() {
-  const { data: scans = [], isLoading } = useScans();
-  const [search, setSearch] = useState('');
-  const [filterType, setFilterType] = useState(ALL_TYPES);
-  const [filterStatus, setFilterStatus] = useState(ALL_TYPES);
+  const [page, setPage]             = useState(1);
+  const [search, setSearch]         = useState('');
+  const [filterType, setFilterType] = useState(ALL);
+  const [filterStatus, setFilterStatus] = useState(ALL);
 
-  // Unique scan types for filter
+  const { data: scans = [], isLoading } = useScans(page);
+  const { data: meta }                  = useScansMeta(page);
+
+  const totalPages = meta ? Math.ceil(meta.count / 20) : 1;
+
+  // Unique scan types from current page for the filter dropdown
   const scanTypes = [...new Set(scans.map((s) => s.scan_type))].sort();
 
   const filtered = scans.filter((scan) => {
@@ -24,15 +29,16 @@ export default function History() {
       !search ||
       scan.target.toLowerCase().includes(search.toLowerCase()) ||
       scan.scan_type.toLowerCase().includes(search.toLowerCase());
-    const matchType = filterType === ALL_TYPES || scan.scan_type === filterType;
-    const matchStatus = filterStatus === ALL_TYPES || getScanStatus(scan.result) === filterStatus;
+    const matchType   = filterType   === ALL || scan.scan_type === filterType;
+    const matchStatus = filterStatus === ALL || scan.status    === filterStatus;
     return matchSearch && matchType && matchStatus;
   });
 
   return (
     <div className="min-h-screen bg-black pt-20 pb-12 px-4">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
+
+        {/* ── Header ── */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -55,66 +61,68 @@ export default function History() {
           </Link>
         </motion.div>
 
-        {/* Filters */}
+        {/* ── Filters ── */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
           className="flex flex-wrap gap-3 mb-6"
         >
-          {/* Search */}
           <div className="relative flex-1 min-w-[200px]">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-600" />
             <input
               type="text"
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => { setSearch(e.target.value); setPage(1); }}
               placeholder="Search target or scan type..."
               className="w-full bg-[#0d0d0f] border border-[#1a1d26] rounded px-10 py-2.5 text-sm font-mono text-white placeholder-gray-700 focus:outline-none focus:border-blue-500/35 transition-all"
             />
           </div>
 
-          {/* Type filter */}
           <div className="relative">
             <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-600" />
             <select
               value={filterType}
-              onChange={(e) => setFilterType(e.target.value)}
+              onChange={(e) => { setFilterType(e.target.value); setPage(1); }}
               className="bg-[#0d0d0f] border border-[#1a1d26] rounded pl-8 pr-4 py-2.5 text-sm font-mono text-white focus:outline-none focus:border-blue-500/35 transition-all appearance-none cursor-pointer"
             >
-              <option value={ALL_TYPES}>All Types</option>
-              {scanTypes.map((t) => (
-                <option key={t} value={t}>{t}</option>
-              ))}
+              <option value={ALL}>All Types</option>
+              {scanTypes.map((t) => <option key={t} value={t}>{t}</option>)}
             </select>
           </div>
 
-          {/* Status filter */}
           <select
             value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value)}
+            onChange={(e) => { setFilterStatus(e.target.value); setPage(1); }}
             className="bg-[#0d0d0f] border border-[#1a1d26] rounded px-4 py-2.5 text-sm font-mono text-white focus:outline-none focus:border-blue-500/35 transition-all appearance-none cursor-pointer"
           >
-            <option value={ALL_TYPES}>All Status</option>
+            <option value={ALL}>All Status</option>
             <option value="completed">Completed</option>
             <option value="running">Running</option>
-            <option value="error">Error</option>
+            <option value="pending">Pending</option>
+            <option value="failed">Failed</option>
           </select>
         </motion.div>
 
-        {/* Count */}
-        <div className="text-xs text-gray-600 font-mono mb-4">
-          {filtered.length} scan{filtered.length !== 1 ? 's' : ''} found
+        {/* ── Count ── */}
+        <div className="flex items-center justify-between mb-4">
+          <span className="text-xs text-gray-600 font-mono">
+            {meta ? `${meta.count} total scan${meta.count !== 1 ? 's' : ''}` : `${filtered.length} scans`}
+          </span>
+          {totalPages > 1 && (
+            <span className="text-xs text-gray-600 font-mono">
+              Page {page} of {totalPages}
+            </span>
+          )}
         </div>
 
-        {/* Table */}
+        {/* ── Table ── */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
           className="rounded-lg bg-[#0d0d0f] border border-[#1a1d26] overflow-hidden"
         >
-          {/* Table header */}
           <div className="hidden md:grid grid-cols-12 gap-4 px-5 py-3 border-b border-[#1a1d26] text-xs text-gray-600 font-mono tracking-widest">
             <span className="col-span-1">#</span>
             <span className="col-span-4">TARGET</span>
@@ -132,7 +140,7 @@ export default function History() {
           ) : filtered.length === 0 ? (
             <div className="p-12 text-center text-gray-600 font-mono text-sm">
               {scans.length === 0
-                ? <>No scans yet. <Link to="/scan" className="text-blue-400 hover:underline">Launch your first scan →</Link></>
+                ? <><span>No scans yet. </span><Link to="/scan" className="text-blue-400 hover:underline">Launch your first scan →</Link></>
                 : 'No scans match your filters.'}
             </div>
           ) : (
@@ -157,7 +165,7 @@ export default function History() {
                     </div>
                     <span className="col-span-2 text-xs text-cyan-400 font-mono">{scan.scan_type}</span>
                     <div className="col-span-2">
-                      <StatusBadge result={scan.result} />
+                      <StatusBadge scan={scan} />
                     </div>
                     <div className="col-span-2 flex items-center gap-1.5 text-xs text-gray-600 font-mono">
                       <Calendar className="w-3 h-3" />
@@ -172,6 +180,48 @@ export default function History() {
             </div>
           )}
         </motion.div>
+
+        {/* ── Pagination controls ── */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-3 mt-6">
+            <button
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={page === 1}
+              className="flex items-center gap-1.5 px-4 py-2 rounded border border-[#1a1d26] text-sm font-mono text-gray-400 hover:text-blue-400 hover:border-blue-500/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              Prev
+            </button>
+
+            <div className="flex items-center gap-1">
+              {Array.from({ length: Math.min(totalPages, 7) }, (_, i) => {
+                const p = i + 1;
+                return (
+                  <button
+                    key={p}
+                    onClick={() => setPage(p)}
+                    className={`w-8 h-8 rounded text-xs font-mono transition-all ${
+                      p === page
+                        ? 'bg-blue-600 text-white'
+                        : 'border border-[#1a1d26] text-gray-500 hover:text-blue-400 hover:border-blue-500/30'
+                    }`}
+                  >
+                    {p}
+                  </button>
+                );
+              })}
+            </div>
+
+            <button
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              disabled={page === totalPages}
+              className="flex items-center gap-1.5 px-4 py-2 rounded border border-[#1a1d26] text-sm font-mono text-gray-400 hover:text-blue-400 hover:border-blue-500/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+            >
+              Next
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

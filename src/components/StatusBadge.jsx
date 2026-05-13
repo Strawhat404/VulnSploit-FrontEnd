@@ -1,12 +1,32 @@
 import { Loader2, CheckCircle, XCircle, Clock } from 'lucide-react';
 
-export function getScanStatus(result) {
-  if (!result || result === 'Scan in progress') return 'running';
-  if (result.startsWith('Error') || result.startsWith('Scan execution error') || result.startsWith('An unexpected error')) return 'error';
+/**
+ * Resolve a scan's status from the new `status` field.
+ * Falls back to parsing `result` text for backwards compatibility
+ * with any scans created before the status field was added.
+ */
+export function getScanStatus(scan) {
+  // New API — use the status field directly
+  if (scan?.status) return scan.status;
+
+  // Legacy fallback — parse result text
+  const result = typeof scan === 'string' ? scan : scan?.result;
+  if (!result || result.startsWith('Scan')) return 'running';
+  if (
+    result.startsWith('Error') ||
+    result.startsWith('Scan execution error') ||
+    result.startsWith('An unexpected error')
+  ) return 'failed';
   return 'completed';
 }
 
 const statusConfig = {
+  pending: {
+    label: 'PENDING',
+    icon: Clock,
+    className: 'status-pending',
+    spin: false,
+  },
   running: {
     label: 'RUNNING',
     icon: Loader2,
@@ -19,23 +39,26 @@ const statusConfig = {
     className: 'status-completed',
     spin: false,
   },
-  error: {
-    label: 'ERROR',
+  failed: {
+    label: 'FAILED',
     icon: XCircle,
     className: 'status-error',
     spin: false,
   },
-  pending: {
-    label: 'PENDING',
-    icon: Clock,
-    className: 'status-pending',
+  // legacy alias
+  error: {
+    label: 'FAILED',
+    icon: XCircle,
+    className: 'status-error',
     spin: false,
   },
 };
 
-export default function StatusBadge({ result, size = 'sm' }) {
-  const status = getScanStatus(result);
-  const { label, icon: Icon, className, spin } = statusConfig[status];
+export default function StatusBadge({ scan, result, size = 'sm' }) {
+  // Accept either a full scan object or a legacy result string
+  const status = getScanStatus(scan ?? result);
+  const config = statusConfig[status] ?? statusConfig.running;
+  const { label, icon: Icon, className, spin } = config;
 
   const sizeClass = size === 'sm' ? 'text-xs px-2 py-1' : 'text-sm px-3 py-1.5';
 
