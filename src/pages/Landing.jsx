@@ -9,18 +9,18 @@ import {
 
 // Animated typing terminal demo
 const terminalLines = [
-  { text: '$ vulnsploit scan --target example.com --type nmap_full', delay: 0, color: 'text-blue-400' },
-  { text: '[*] Initializing scan engine...', delay: 800, color: 'text-gray-400' },
-  { text: '[*] Target: example.com | Type: nmap_full', delay: 1400, color: 'text-gray-400' },
-  { text: '[+] Scan queued → ID: 0x4F2A', delay: 2000, color: 'text-cyan-400' },
-  { text: '[*] Celery worker picked up task...', delay: 2800, color: 'text-gray-400' },
-  { text: 'Starting Nmap 7.93 ( https://nmap.org )', delay: 3600, color: 'text-gray-300' },
-  { text: 'Nmap scan report for example.com (93.184.216.34)', delay: 4200, color: 'text-gray-300' },
-  { text: 'PORT    STATE  SERVICE  VERSION', delay: 4800, color: 'text-amber-400' },
-  { text: '80/tcp  open   http     Apache httpd 2.4.41', delay: 5200, color: 'text-blue-300' },
-  { text: '443/tcp open   https    nginx 1.18.0', delay: 5600, color: 'text-blue-300' },
-  { text: '22/tcp  open   ssh      OpenSSH 8.2p1', delay: 6000, color: 'text-blue-300' },
-  { text: '[✓] Scan completed. Results saved.', delay: 6600, color: 'text-cyan-400' },
+  { text: '$ vulnsploit recon --target acme-corp.com --mode full', delay: 0, color: 'text-blue-400' },
+  { text: '[*] Initializing reconnaissance engine...', delay: 800, color: 'text-gray-400' },
+  { text: '[*] Target: acme-corp.com | Mode: Full Assessment', delay: 1400, color: 'text-gray-400' },
+  { text: '[+] Session created → ID: 0x4F2A', delay: 2000, color: 'text-cyan-400' },
+  { text: '[*] Running passive reconnaissance...', delay: 2800, color: 'text-gray-400' },
+  { text: '[+] Discovered 14 subdomains across attack surface', delay: 3600, color: 'text-blue-300' },
+  { text: '[*] Scanning ports and enumerating services...', delay: 4200, color: 'text-gray-400' },
+  { text: 'FINDING  SEVERITY  DESCRIPTION', delay: 4800, color: 'text-amber-400' },
+  { text: '[!] Port 3306 exposed to internet — CRITICAL', delay: 5200, color: 'text-red-400' },
+  { text: '[!] Missing HSTS header — HIGH', delay: 5600, color: 'text-orange-400' },
+  { text: '[!] SSL/TLS: TLS 1.0 enabled — MEDIUM', delay: 6000, color: 'text-blue-300' },
+  { text: '[✓] Assessment complete. PDF report generated.', delay: 6600, color: 'text-cyan-400' },
 ];
 
 function TerminalDemo() {
@@ -73,43 +73,43 @@ function TerminalDemo() {
 const features = [
   {
     icon: Network,
-    title: 'Nmap Port Scanner',
-    desc: 'Full TCP/UDP port scanning with service version detection, OS fingerprinting, and vulnerability scripts.',
+    title: 'Port & Service Discovery',
+    desc: 'Comprehensive TCP/UDP port scanning with service identification, version detection, and OS fingerprinting across your entire attack surface.',
     color: 'text-blue-400',
     border: 'border-blue-500/20',
   },
   {
     icon: Bug,
-    title: 'SQLMap Injection',
-    desc: 'Automated SQL injection detection and exploitation with smart crawling and form analysis.',
+    title: 'Injection & Exploitation Testing',
+    desc: 'Automated detection of injection vulnerabilities including SQL, command, and parameter tampering across web application entry points.',
     color: 'text-cyan-400',
     border: 'border-cyan-500/20',
   },
   {
     icon: Globe,
-    title: 'Subfinder Recon',
-    desc: 'Passive subdomain enumeration using multiple sources for comprehensive attack surface mapping.',
+    title: 'Attack Surface Mapping',
+    desc: 'Passive and active reconnaissance to enumerate subdomains, exposed assets, and external-facing infrastructure at scale.',
     color: 'text-blue-400',
     border: 'border-blue-500/20',
   },
   {
     icon: Search,
-    title: 'Gobuster Fuzzing',
-    desc: 'Directory and file brute-forcing to discover hidden endpoints and sensitive resources.',
+    title: 'Hidden Endpoint Discovery',
+    desc: 'Intelligent directory and file enumeration to uncover exposed admin panels, sensitive endpoints, and misconfigured resources.',
     color: 'text-cyan-400',
     border: 'border-cyan-500/20',
   },
   {
     icon: Activity,
-    title: 'Nuclei Templates',
-    desc: 'Template-based vulnerability scanning with structured JSON output for thousands of CVEs.',
+    title: 'CVE & Vulnerability Detection',
+    desc: 'Template-based scanning against thousands of known CVEs, combined with real-time enrichment from the National Vulnerability Database.',
     color: 'text-blue-400',
     border: 'border-blue-500/20',
   },
   {
     icon: Code2,
-    title: 'WhatWeb & Nikto',
-    desc: 'Web technology fingerprinting and web server vulnerability assessment in one unified API.',
+    title: 'SSL/TLS & Headers Analysis',
+    desc: 'Deep inspection of SSL/TLS configuration, certificate validity, cipher suites, and HTTP security header misconfigurations.',
     color: 'text-cyan-400',
     border: 'border-cyan-500/20',
   },
@@ -117,10 +117,10 @@ const features = [
 
 // Stats
 const stats = [
-  { value: '9+', label: 'Scan Modules' },
-  { value: 'JWT', label: 'Auth Security' },
-  { value: 'Async', label: 'Task Queue' },
-  { value: '100%', label: 'Dockerized' },
+  { value: '10+', label: 'Attack Vectors' },
+  { value: 'AI', label: 'Powered Reports' },
+  { value: 'Real-time', label: 'Scan Monitoring' },
+  { value: '100%', label: 'Automated' },
 ];
 
 function StatCard({ value, label, index }) {
@@ -165,8 +165,8 @@ export default function Landing() {
             </Link>
 
             <div className="hidden md:flex items-center gap-6 text-sm font-mono text-gray-500">
-              <a href="#features"      className="hover:text-blue-400 transition-colors">Tools</a>
-              <a href="#architecture"  className="hover:text-blue-400 transition-colors">Architecture</a>
+              <a href="#features"      className="hover:text-blue-400 transition-colors">Capabilities</a>
+              <a href="#architecture"  className="hover:text-blue-400 transition-colors">How It Works</a>
               <a href="#cta"           className="hover:text-blue-400 transition-colors">Get Started</a>
             </div>
 
@@ -228,10 +228,12 @@ export default function Landing() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-gray-400 text-base leading-relaxed mb-8 max-w-lg"
             >
-              A high-performance, containerized backend for automated reconnaissance and
-              vulnerability assessment. Orchestrate{' '}
-              <span className="text-cyan-400">Nmap, SQLMap, Nuclei, Gobuster</span> and more
-              through a unified REST API with async task execution.
+              A professional-grade penetration testing platform for automated
+              reconnaissance, vulnerability assessment, and security reporting.
+              Identify exposed ports, misconfigurations, CVEs, and SSL weaknesses —
+              then generate{' '}
+              <span className="text-cyan-400">AI-powered PDF reports</span> with
+              remediation guidance in minutes.
             </motion.p>
 
             {/* CTA buttons */}
@@ -257,19 +259,19 @@ export default function Landing() {
               </a>
             </motion.div>
 
-            {/* Tech stack pills */}
+            {/* Capability pills — no tech stack, just what it does */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
               className="flex flex-wrap gap-2 mt-8"
             >
-              {['Django 5', 'Celery', 'Redis', 'JWT', 'Docker', 'React'].map((tech) => (
+              {['Automated Scanning', 'AI Reports', 'CVE Detection', 'SSL Analysis', 'Zero Config', 'Secure Access'].map((tag) => (
                 <span
-                  key={tech}
-              className="px-2.5 py-1 text-xs font-mono text-gray-500 border border-[#1a1d26] rounded bg-[#0d0d0f]"
+                  key={tag}
+                  className="px-2.5 py-1 text-xs font-mono text-gray-500 border border-[#1a1d26] rounded bg-[#0d0d0f]"
                 >
-                  {tech}
+                  {tag}
                 </span>
               ))}
             </motion.div>
@@ -321,14 +323,14 @@ export default function Landing() {
           >
             <div className="inline-flex items-center gap-2 text-blue-400 text-xs font-mono tracking-widest mb-4">
               <span className="w-8 h-px bg-blue-500/50" />
-              INTEGRATED TOOLS
+              CAPABILITIES
               <span className="w-8 h-px bg-blue-500/50" />
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Full Arsenal. One API.
+              Full Coverage. One Platform.
             </h2>
             <p className="text-gray-500 max-w-xl mx-auto">
-              Every major penetration testing tool, orchestrated through a single authenticated endpoint.
+              Every phase of a professional security assessment — from reconnaissance to exploitation to reporting — automated and unified.
             </p>
           </motion.div>
 
@@ -364,11 +366,11 @@ export default function Landing() {
           >
             <div className="inline-flex items-center gap-2 text-cyan-400 text-xs font-mono tracking-widest mb-4">
               <span className="w-8 h-px bg-cyan-500/50" />
-              ARCHITECTURE
+              HOW IT WORKS
               <span className="w-8 h-px bg-cyan-500/50" />
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Built for Performance
+              From Target to Report in Minutes
             </h2>
           </motion.div>
 
@@ -376,24 +378,24 @@ export default function Landing() {
             {[
               {
                 icon: Cpu,
-                title: 'Django REST API',
-                desc: 'JWT-secured endpoints for scan management. Non-blocking — tasks are immediately offloaded.',
+                title: 'Define Your Target',
+                desc: 'Enter a domain, IP address, or URL. VulnSploit validates and scopes the assessment automatically — no complex configuration required.',
                 color: 'text-blue-400',
-                tag: ':8000',
+                tag: '01',
               },
               {
                 icon: Database,
-                title: 'Redis Broker',
-                desc: 'Message queue between the API and workers. Handles task routing and result storage.',
+                title: 'Automated Assessment',
+                desc: 'A full suite of security checks runs in sequence — port scanning, web vulnerability testing, SSL analysis, CVE detection, and more.',
                 color: 'text-cyan-400',
-                tag: ':6379',
+                tag: '02',
               },
               {
                 icon: Zap,
-                title: 'Celery Workers',
-                desc: 'Async workers that execute the actual scan tools. Horizontally scalable.',
+                title: 'AI-Powered Report',
+                desc: 'Every finding is analyzed, prioritized by severity, and compiled into a professional PDF report with actionable remediation steps.',
                 color: 'text-amber-400',
-                tag: 'worker',
+                tag: '03',
               },
             ].map((item, i) => (
               <motion.div
@@ -416,15 +418,11 @@ export default function Landing() {
 
           {/* Flow arrows */}
           <div className="flex items-center justify-center gap-4 mt-8 text-xs font-mono text-gray-600">
-            <span className="text-blue-400">Client</span>
+            <span className="text-blue-400">Define Target</span>
             <span>──→</span>
-            <span className="text-blue-400">API</span>
+            <span className="text-cyan-400">Run Assessment</span>
             <span>──→</span>
-            <span className="text-cyan-400">Redis</span>
-            <span>──→</span>
-            <span className="text-amber-400">Worker</span>
-            <span>──→</span>
-            <span className="text-gray-400">Tools</span>
+            <span className="text-amber-400">Get Report</span>
           </div>
         </div>
       </section>
@@ -443,10 +441,11 @@ export default function Landing() {
 
             <Shield className="w-12 h-12 text-blue-400 mx-auto mb-4" />
             <h2 className="text-3xl font-bold text-white mb-3">
-              Ready to Scan?
+              Start Your Assessment
             </h2>
             <p className="text-gray-400 mb-8">
-              Log in to access the dashboard and start your first vulnerability assessment.
+              Identify vulnerabilities before attackers do. Run your first
+              security assessment in minutes — no configuration required.
             </p>
             <Link
               to="/login"
@@ -471,14 +470,14 @@ export default function Landing() {
               </span>
             </Link>
             <div className="flex items-center gap-6 text-xs font-mono text-gray-600">
-              <a href="#features"     className="hover:text-blue-400 transition-colors">Tools</a>
-              <a href="#architecture" className="hover:text-blue-400 transition-colors">Architecture</a>
+              <a href="#features"     className="hover:text-blue-400 transition-colors">Capabilities</a>
+              <a href="#architecture" className="hover:text-blue-400 transition-colors">How It Works</a>
               <a href="#cta"          className="hover:text-blue-400 transition-colors">Get Started</a>
               <Link to="/login"       className="hover:text-blue-400 transition-colors">Login</Link>
             </div>
           </div>
           <div className="flex flex-col md:flex-row items-center justify-between gap-2 text-xs text-gray-700 font-mono border-t border-[#1a1d26] pt-6">
-            <span>VULNSPLOIT v1.0.0 — MIT LICENSE</span>
+            <span>VULNSPLOIT v1.0.0 — ALL RIGHTS RESERVED</span>
             <span className="text-yellow-600/60">⚠ FOR AUTHORIZED PENETRATION TESTING ONLY</span>
           </div>
         </div>
