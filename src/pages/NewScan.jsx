@@ -52,10 +52,12 @@ const scanTypes = [
     bg: 'bg-cyan-500/5',
     icon: Globe,
     types: [
-      { value: 'nikto',    label: 'Nikto',    desc: 'Web server vulnerability scanner' },
-      { value: 'gobuster', label: 'Gobuster', desc: 'Directory & file brute-forcing' },
-      { value: 'whatweb',  label: 'WhatWeb',  desc: 'Web technology fingerprinting' },
-      { value: 'wpscan',   label: 'WPScan',   desc: 'WordPress vulnerability scanner' },
+      { value: 'nikto',    label: 'Nikto',         desc: 'Web server vulnerability scanner' },
+      { value: 'gobuster', label: 'Gobuster',       desc: 'Directory & file brute-forcing' },
+      { value: 'whatweb',  label: 'WhatWeb',        desc: 'Web technology fingerprinting' },
+      { value: 'wpscan',   label: 'WPScan',         desc: 'WordPress vulnerability scanner' },
+      { value: 'headers',  label: 'Headers Check',  desc: 'HTTP security headers misconfiguration check' },
+      { value: 'testssl',  label: 'TestSSL',        desc: 'SSL/TLS misconfiguration & vulnerability scan' },
     ],
   },
   {
@@ -110,7 +112,7 @@ export default function NewScan() {
       if (isFullRecon) {
         // Full recon — creates a ReconSession
         const session = await createSession({ target: target.trim() });
-        navigate(`/sessions/${session.id}`);
+        navigate(`/recon/${session.id}`);
       } else {
         // Individual scan
         const scan = await createScan({ target: target.trim(), scan_type: selectedType });

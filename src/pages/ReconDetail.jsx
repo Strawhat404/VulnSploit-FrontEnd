@@ -7,11 +7,13 @@ import {
 import { useReconSession } from '../hooks/useRecon';
 import StatusBadge from '../components/StatusBadge';
 
-const TOOL_ORDER = ['subfinder', 'whatweb', 'quick', 'nikto', 'gobuster', 'nuclei', 'sqlmap'];
+const TOOL_ORDER = ['subfinder', 'whatweb', 'testssl', 'headers', 'quick', 'nikto', 'gobuster', 'nuclei', 'sqlmap'];
 
 const TOOL_LABELS = {
   subfinder: 'Subfinder',
   whatweb:   'WhatWeb',
+  testssl:   'TestSSL',
+  headers:   'Headers Check',
   quick:     'Nmap Quick',
   nikto:     'Nikto',
   gobuster:  'Gobuster',

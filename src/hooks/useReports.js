@@ -1,13 +1,13 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import api from '../lib/axios';
 
-// ─── Recon Sessions ───────────────────────────────────────────────────────────
+// ─── Recon Sessions (uses correct /api/recon/ endpoints) ──────────────────────
 
 export const useSessions = () =>
   useQuery({
-    queryKey: ['sessions'],
+    queryKey: ['recon-sessions'],
     queryFn: async () => {
-      const res = await api.get('/api/sessions/');
+      const res = await api.get('/api/recon/list/');
       return res.data?.results ?? res.data;
     },
     refetchInterval: 8000,
@@ -15,9 +15,9 @@ export const useSessions = () =>
 
 export const useSession = (id) =>
   useQuery({
-    queryKey: ['session', id],
+    queryKey: ['recon-session', id],
     queryFn: async () => {
-      const res = await api.get(`/api/sessions/${id}/`);
+      const res = await api.get(`/api/recon/${id}/`);
       return res.data;
     },
     enabled: !!id,
@@ -30,12 +30,12 @@ export const useSession = (id) =>
 export const useCreateSession = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ target, tools }) => {
-      const res = await api.post('/api/sessions/', { target, tools });
+    mutationFn: async ({ target }) => {
+      const res = await api.post('/api/recon/', { target });
       return res.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['sessions'] });
+      queryClient.invalidateQueries({ queryKey: ['recon-sessions'] });
     },
   });
 };
@@ -69,12 +69,31 @@ export const useReport = (id) =>
 export const useGenerateReport = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ session_id, scan_ids, target }) => {
-      const res = await api.post('/api/reports/generate/', { session_id, scan_ids, target });
+    mutationFn: async ({ scan_ids }) => {
+      const res = await api.post('/api/reports/generate/', { scan_ids });
       return res.data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['reports'] });
     },
   });
+};
+
+// ─── Authenticated PDF download ───────────────────────────────────────────────
+
+export const useDownloadReport = () => {
+  return async (reportId, target) => {
+    const res = await api.get(`/api/reports/${reportId}/download/`, {
+      responseType: 'blob',
+    });
+    const url      = URL.createObjectURL(res.data);
+    const filename = `vulnsploit_report_${target}_${reportId}.pdf`;
+    const a        = document.createElement('a');
+    a.href         = url;
+    a.download     = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
 };

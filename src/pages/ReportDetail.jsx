@@ -5,7 +5,7 @@ import {
   FileText, Shield, AlertTriangle, Info,
   CheckCircle, XCircle, RefreshCw
 } from 'lucide-react';
-import { useReport } from '../hooks/useRecon';
+import { useReport, useDownloadReport } from '../hooks/useReports';
 
 const severityConfig = {
   critical: { color: 'text-red-400',    bg: 'bg-red-500/10',    border: 'border-red-500/30',    icon: XCircle },
@@ -79,6 +79,7 @@ function FindingCard({ finding, index }) {
 export default function ReportDetail() {
   const { id } = useParams();
   const { data: report, isLoading, refetch, isFetching } = useReport(id);
+  const downloadReport = useDownloadReport();
 
   const isGenerating = report?.status === 'generating';
   const counts       = report?.severity_counts || {};
@@ -132,13 +133,13 @@ export default function ReportDetail() {
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
                 {report.status === 'ready' && (
-                  <a
-                    href={`/api/reports/${report.id}/download/`}
+                  <button
+                    onClick={() => downloadReport(report.id, report.target)}
                     className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-xs font-bold tracking-widest rounded hover:bg-blue-500 transition-all"
                   >
                     <Download className="w-3.5 h-3.5" />
                     DOWNLOAD PDF
-                  </a>
+                  </button>
                 )}
                 <button
                   onClick={() => refetch()}

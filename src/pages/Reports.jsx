@@ -4,7 +4,7 @@ import {
   FileText, Terminal, Download, Loader2,
   CheckCircle, XCircle, ArrowRight, Calendar, Target
 } from 'lucide-react';
-import { useReports } from '../hooks/useRecon';
+import { useReports, useDownloadReport } from '../hooks/useReports';
 
 const statusConfig = {
   generating: { icon: Loader2, label: 'GENERATING', color: 'text-cyan-400', spin: true },
@@ -21,6 +21,7 @@ const riskColors = {
 
 export default function Reports() {
   const { data: reports = [], isLoading } = useReports();
+  const downloadReport = useDownloadReport();
 
   return (
     <div className="min-h-screen bg-black pt-20 pb-12 px-4">
@@ -137,15 +138,14 @@ export default function Reports() {
                       </div>
 
                       <div className="col-span-1 flex justify-end items-center gap-2">
-                        {report.status === 'ready' && report.pdf_url && (
-                          <a
-                            href={`/api/reports/${report.id}/download/`}
-                            onClick={(e) => e.stopPropagation()}
+                        {report.status === 'ready' && (
+                          <button
+                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); downloadReport(report.id, report.target); }}
                             className="p-1.5 rounded border border-[#1a1d26] hover:border-blue-500/30 text-gray-600 hover:text-blue-400 transition-all"
                             title="Download PDF"
                           >
                             <Download className="w-3.5 h-3.5" />
-                          </a>
+                          </button>
                         )}
                         <ArrowRight className="w-4 h-4 text-gray-700 group-hover:text-blue-400 transition-colors" />
                       </div>

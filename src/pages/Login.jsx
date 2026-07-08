@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import axios from 'axios';
 import { useAuthStore } from '../store/authStore';
+import { BASE_URL } from '../lib/axios';
 
 function parseLoginError(err) {
   if (!err.response) {
@@ -45,7 +46,7 @@ export default function Login() {
 
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API_URL || 'http://localhost:8001'}/api/token/`,
+        `${BASE_URL}/api/token/`,
         form
       );
       setTokens(res.data.access, res.data.refresh, form.username);

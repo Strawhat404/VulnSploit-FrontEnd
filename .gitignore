@@ -41,3 +41,8 @@ Thumbs.db
 # ─── Vite / misc ───────────────────────────────────────────────
 *.local
 .cache/
+
+# ─── Internal planning docs — never commit ─────────────────────
+/AUDIT_REPORT.md
+/IMPLEMENTATION_PLAN.md
+/DEPLOY.md
