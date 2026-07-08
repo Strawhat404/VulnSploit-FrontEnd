@@ -10,7 +10,7 @@ import TerminalOutput from '../components/TerminalOutput';
 
 function InfoRow({ icon: Icon, label, value }) {
   return (
-    <div className="flex items-start gap-3 py-2.5 border-b border-[#1a1d26] last:border-0">
+    <div className="flex items-start gap-3 py-2.5 border-b border-theme last:border-0">
       <Icon className="w-4 h-4 text-gray-600 flex-shrink-0 mt-0.5" />
       <span className="text-xs text-gray-500 font-mono w-20 flex-shrink-0 pt-0.5">{label}</span>
       <span className="text-sm text-white font-mono break-all">{value}</span>
@@ -26,14 +26,14 @@ export default function ScanDetail() {
   const isRunning = status === 'running' || status === 'pending';
 
   return (
-    <div className="min-h-screen bg-black pt-20 pb-12 px-4">
+    <div className="min-h-screen bg-theme-base pt-20 pb-12 px-4">
       <div className="max-w-5xl mx-auto">
 
         {/* ── Breadcrumb ── */}
         <motion.div
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: 1, x: 0 }}
-          className="flex items-center gap-1.5 text-xs font-mono text-gray-600 mb-6"
+          className="flex items-center gap-1.5 text-xs font-mono text-theme-faint mb-6"
         >
           <Link to="/dashboard" className="hover:text-blue-400 transition-colors">Dashboard</Link>
           <ChevronRight className="w-3 h-3" />
@@ -64,7 +64,7 @@ export default function ScanDetail() {
               className="flex items-start justify-between mb-6 gap-4"
             >
               <div className="min-w-0">
-                <div className="flex items-center gap-2 text-xs text-gray-600 font-mono mb-1.5">
+                <div className="flex items-center gap-2 text-xs text-theme-faint font-mono mb-1.5">
                   <Terminal className="w-3 h-3 text-blue-400" />
                   <span>scan #{scan.id} · {scan.scan_type}</span>
                 </div>
@@ -77,7 +77,7 @@ export default function ScanDetail() {
                 <button
                   onClick={() => refetch()}
                   disabled={isFetching}
-                  className="p-2 rounded border border-[#1a1d26] hover:border-blue-500/30 text-gray-500 hover:text-blue-400 transition-all"
+                  className="p-2 rounded border border-theme hover:border-blue-500/30 text-gray-500 hover:text-blue-400 transition-all"
                   title="Refresh"
                 >
                   <RefreshCw className={`w-4 h-4 ${isFetching ? 'animate-spin' : ''}`} />
@@ -108,7 +108,7 @@ export default function ScanDetail() {
                 transition={{ delay: 0.1 }}
                 className="lg:col-span-1 space-y-4"
               >
-                <div className="p-5 rounded-lg bg-[#0d0d0f] border border-[#1a1d26]">
+                <div className="p-5 rounded-lg bg-theme-card border border-theme">
                   <div className="flex items-center gap-2 mb-4">
                     <Cpu className="w-4 h-4 text-blue-400" />
                     <span className="text-xs text-gray-400 tracking-widest font-mono">SCAN INFO</span>
@@ -124,7 +124,7 @@ export default function ScanDetail() {
                 </div>
 
                 {/* Run another scan CTA */}
-                <div className="p-4 rounded-lg bg-[#0d0d0f] border border-[#1a1d26]">
+                <div className="p-4 rounded-lg bg-theme-card border border-theme">
                   <p className="text-xs text-gray-500 font-mono mb-3">RUN ANOTHER SCAN</p>
                   <Link
                     to={`/scan?type=${scan.scan_type}`}
@@ -135,7 +135,7 @@ export default function ScanDetail() {
                   </Link>
                   <Link
                     to="/scan"
-                    className="flex items-center justify-center gap-2 w-full py-2.5 border border-[#1a1d26] text-gray-400 text-xs font-mono rounded hover:border-blue-500/30 hover:text-blue-300 transition-all"
+                    className="flex items-center justify-center gap-2 w-full py-2.5 border border-theme text-gray-400 text-xs font-mono rounded hover:border-blue-500/30 hover:text-blue-300 transition-all"
                   >
                     Choose Different Type
                   </Link>

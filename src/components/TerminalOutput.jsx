@@ -31,10 +31,10 @@ export default function TerminalOutput({ content, title = 'OUTPUT', isJson = fal
 
   return (
     // Outer wrapper: fixed height, no overflow — the box never grows
-    <div className="rounded-lg border border-[#1a1d26] flex flex-col h-[420px]">
+    <div className="rounded-lg border border-theme flex flex-col h-[420px]">
 
       {/* ── Header bar — fixed, never scrolls ── */}
-      <div className="flex items-center justify-between px-4 py-2.5 bg-[#252830] border-b border-[#1a1d26] flex-shrink-0 rounded-t-lg">
+      <div className="flex items-center justify-between px-4 py-2.5 bg-theme-term-hd border-b border-theme flex-shrink-0 rounded-t-lg">
         <div className="flex items-center gap-3">
           <div className="flex gap-1.5">
             <span className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
@@ -59,7 +59,7 @@ export default function TerminalOutput({ content, title = 'OUTPUT', isJson = fal
       </div>
 
       {/* ── Scrollable content — fills remaining height, logs scroll inside ── */}
-      <div className="flex-1 bg-[#050507] overflow-y-auto overflow-x-hidden min-h-0">
+      <div className="flex-1 bg-theme-input overflow-y-auto overflow-x-hidden min-h-0">
         {isJson && typeof content !== 'string' ? (
           <div className="p-4">
             <SyntaxHighlighter
@@ -81,7 +81,7 @@ export default function TerminalOutput({ content, title = 'OUTPUT', isJson = fal
       </div>
 
       {/* ── Footer — fixed, never scrolls ── */}
-      <div className="flex items-center justify-between px-4 py-1.5 bg-[#0d0d0f] border-t border-[#1a1d26] flex-shrink-0 rounded-b-lg">
+      <div className="flex items-center justify-between px-4 py-1.5 bg-theme-card border-t border-theme flex-shrink-0 rounded-b-lg">
         <span className="text-xs text-gray-700 font-mono">
           {displayContent ? `${displayContent.split('\n').length} lines` : '0 lines'}
         </span>

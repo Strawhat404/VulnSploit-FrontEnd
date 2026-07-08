@@ -7,7 +7,7 @@ export default function NotFound() {
   const { isAuthenticated } = useAuthStore();
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-4 relative overflow-hidden">
+    <div className="min-h-screen bg-theme-base flex items-center justify-center px-4 relative overflow-hidden">
       {/* Grid bg */}
       <div className="fixed inset-0 grid-bg opacity-30 pointer-events-none" />
 
@@ -42,9 +42,9 @@ export default function NotFound() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="mb-8 rounded-lg overflow-hidden border border-[#1a1d26] bg-[#0d0d0f]"
+          className="mb-8 rounded-lg overflow-hidden border border-theme bg-theme-card"
         >
-          <div className="flex items-center gap-2 px-4 py-2.5 bg-[#252830] border-b border-[#1a1d26]">
+          <div className="flex items-center gap-2 px-4 py-2.5 bg-theme-term-hd border-b border-theme">
             <div className="flex gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
               <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
@@ -76,7 +76,7 @@ export default function NotFound() {
         >
           <button
             onClick={() => window.history.back()}
-            className="flex items-center gap-2 px-5 py-2.5 border border-[#1a1d26] text-gray-400 hover:text-blue-300 hover:border-blue-500/30 text-sm font-mono rounded transition-all"
+            className="flex items-center gap-2 px-5 py-2.5 border border-theme text-gray-400 hover:text-blue-300 hover:border-blue-500/30 text-sm font-mono rounded transition-all"
           >
             <ArrowLeft className="w-4 h-4" />
             Go Back

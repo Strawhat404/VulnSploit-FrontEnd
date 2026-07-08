@@ -35,7 +35,7 @@ export default function History() {
   });
 
   return (
-    <div className="min-h-screen bg-black pt-20 pb-12 px-4">
+    <div className="min-h-screen bg-theme-base pt-20 pb-12 px-4">
       <div className="max-w-6xl mx-auto">
 
         {/* ── Header ── */}
@@ -45,7 +45,7 @@ export default function History() {
           className="flex items-center justify-between mb-8"
         >
           <div>
-            <div className="flex items-center gap-2 text-xs text-gray-600 font-mono mb-1">
+            <div className="flex items-center gap-2 text-xs text-theme-faint font-mono mb-1">
               <Terminal className="w-3 h-3 text-blue-400" />
               <span>root@vulnsploit:~$ scan-history</span>
             </div>
@@ -75,7 +75,7 @@ export default function History() {
               value={search}
               onChange={(e) => { setSearch(e.target.value); setPage(1); }}
               placeholder="Search target or scan type..."
-              className="w-full bg-[#0d0d0f] border border-[#1a1d26] rounded px-10 py-2.5 text-sm font-mono text-white placeholder-gray-700 focus:outline-none focus:border-blue-500/35 transition-all"
+              className="w-full bg-theme-card border border-theme rounded px-10 py-2.5 text-sm font-mono text-white placeholder-gray-700 focus:outline-none focus:border-blue-500/35 transition-all"
             />
           </div>
 
@@ -84,7 +84,7 @@ export default function History() {
             <select
               value={filterType}
               onChange={(e) => { setFilterType(e.target.value); setPage(1); }}
-              className="bg-[#0d0d0f] border border-[#1a1d26] rounded pl-8 pr-4 py-2.5 text-sm font-mono text-white focus:outline-none focus:border-blue-500/35 transition-all appearance-none cursor-pointer"
+              className="bg-theme-card border border-theme rounded pl-8 pr-4 py-2.5 text-sm font-mono text-white focus:outline-none focus:border-blue-500/35 transition-all appearance-none cursor-pointer"
             >
               <option value={ALL}>All Types</option>
               {scanTypes.map((t) => <option key={t} value={t}>{t}</option>)}
@@ -94,7 +94,7 @@ export default function History() {
           <select
             value={filterStatus}
             onChange={(e) => { setFilterStatus(e.target.value); setPage(1); }}
-            className="bg-[#0d0d0f] border border-[#1a1d26] rounded px-4 py-2.5 text-sm font-mono text-white focus:outline-none focus:border-blue-500/35 transition-all appearance-none cursor-pointer"
+            className="bg-theme-card border border-theme rounded px-4 py-2.5 text-sm font-mono text-white focus:outline-none focus:border-blue-500/35 transition-all appearance-none cursor-pointer"
           >
             <option value={ALL}>All Status</option>
             <option value="completed">Completed</option>
@@ -106,11 +106,11 @@ export default function History() {
 
         {/* ── Count ── */}
         <div className="flex items-center justify-between mb-4">
-          <span className="text-xs text-gray-600 font-mono">
+          <span className="text-xs text-theme-faint font-mono">
             {meta ? `${meta.count} total scan${meta.count !== 1 ? 's' : ''}` : `${filtered.length} scans`}
           </span>
           {totalPages > 1 && (
-            <span className="text-xs text-gray-600 font-mono">
+            <span className="text-xs text-theme-faint font-mono">
               Page {page} of {totalPages}
             </span>
           )}
@@ -121,9 +121,9 @@ export default function History() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="rounded-lg bg-[#0d0d0f] border border-[#1a1d26] overflow-hidden"
+          className="rounded-lg bg-theme-card border border-theme overflow-hidden"
         >
-          <div className="hidden md:grid grid-cols-12 gap-4 px-5 py-3 border-b border-[#1a1d26] text-xs text-gray-600 font-mono tracking-widest">
+          <div className="hidden md:grid grid-cols-12 gap-4 px-5 py-3 border-b border-theme text-xs text-theme-faint font-mono tracking-widest">
             <span className="col-span-1">#</span>
             <span className="col-span-4">TARGET</span>
             <span className="col-span-2">TYPE</span>
@@ -156,7 +156,7 @@ export default function History() {
                     to={`/scans/${scan.id}`}
                     className="flex md:grid md:grid-cols-12 gap-4 items-center px-5 py-4 hover:bg-blue-500/5 transition-colors group"
                   >
-                    <span className="col-span-1 text-xs text-gray-600 font-mono">#{scan.id}</span>
+                    <span className="col-span-1 text-xs text-theme-faint font-mono">#{scan.id}</span>
                     <div className="col-span-4 min-w-0">
                       <div className="flex items-center gap-2">
                         <Target className="w-3 h-3 text-gray-600 flex-shrink-0" />
@@ -167,7 +167,7 @@ export default function History() {
                     <div className="col-span-2">
                       <StatusBadge scan={scan} />
                     </div>
-                    <div className="col-span-2 flex items-center gap-1.5 text-xs text-gray-600 font-mono">
+                    <div className="col-span-2 flex items-center gap-1.5 text-xs text-theme-faint font-mono">
                       <Calendar className="w-3 h-3" />
                       {new Date(scan.created_at).toLocaleDateString()}
                     </div>
@@ -187,7 +187,7 @@ export default function History() {
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
-              className="flex items-center gap-1.5 px-4 py-2 rounded border border-[#1a1d26] text-sm font-mono text-gray-400 hover:text-blue-400 hover:border-blue-500/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+              className="flex items-center gap-1.5 px-4 py-2 rounded border border-theme text-sm font-mono text-gray-400 hover:text-blue-400 hover:border-blue-500/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
             >
               <ChevronLeft className="w-4 h-4" />
               Prev
@@ -203,7 +203,7 @@ export default function History() {
                     className={`w-8 h-8 rounded text-xs font-mono transition-all ${
                       p === page
                         ? 'bg-blue-600 text-white'
-                        : 'border border-[#1a1d26] text-gray-500 hover:text-blue-400 hover:border-blue-500/30'
+                        : 'border border-theme text-gray-500 hover:text-blue-400 hover:border-blue-500/30'
                     }`}
                   >
                     {p}
@@ -215,7 +215,7 @@ export default function History() {
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page === totalPages}
-              className="flex items-center gap-1.5 px-4 py-2 rounded border border-[#1a1d26] text-sm font-mono text-gray-400 hover:text-blue-400 hover:border-blue-500/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+              className="flex items-center gap-1.5 px-4 py-2 rounded border border-theme text-sm font-mono text-gray-400 hover:text-blue-400 hover:border-blue-500/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
             >
               Next
               <ChevronRight className="w-4 h-4" />

@@ -8,8 +8,8 @@ import {
 import { useCreateScan } from '../hooks/useScans';
 import { useCreateSession } from '../hooks/useReports';
 
-const BORDER  = 'border-[#1a1d26]';
-const CARD_BG = 'bg-[#0d0d0f]';
+const BORDER  = 'border-theme';
+const CARD_BG = 'bg-theme-card';
 
 const scanTypes = [
   {
@@ -129,7 +129,7 @@ export default function NewScan() {
     .find((t) => t.value === selectedType);
 
   return (
-    <div className="min-h-screen bg-black pt-20 pb-12 px-4">
+    <div className="min-h-screen bg-theme-base pt-20 pb-12 px-4">
       <div className="max-w-4xl mx-auto">
 
         {/* Header */}
@@ -138,7 +138,7 @@ export default function NewScan() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <div className="flex items-center gap-2 text-xs text-gray-600 font-mono mb-1">
+          <div className="flex items-center gap-2 text-xs text-theme-faint font-mono mb-1">
             <Terminal className="w-3 h-3 text-blue-400" />
             <span>root@vulnsploit:~$ new-scan</span>
           </div>
@@ -156,7 +156,7 @@ export default function NewScan() {
             transition={{ delay: 0.1 }}
             className={`p-5 rounded-lg ${CARD_BG} border ${BORDER}`}
           >
-            <label className="block text-xs text-gray-500 tracking-widest font-mono mb-3">
+            <label className="block text-xs text-theme-muted tracking-widest font-mono mb-3">
               TARGET
             </label>
             <div className="relative">
@@ -166,7 +166,7 @@ export default function NewScan() {
                 value={target}
                 onChange={(e) => setTarget(e.target.value)}
                 placeholder="example.com  |  192.168.1.1  |  https://target.com"
-                className={`w-full bg-[#050507] border ${BORDER} rounded px-10 py-3 text-sm font-mono text-white placeholder-gray-700 focus:outline-none focus:border-blue-500/50 transition-all`}
+                className={`w-full bg-theme-input border ${BORDER} rounded px-10 py-3 text-sm font-mono text-white placeholder-gray-700 focus:outline-none focus:border-blue-500/50 transition-all`}
               />
             </div>
             <p className="text-xs text-gray-700 mt-2 font-mono">
@@ -180,7 +180,7 @@ export default function NewScan() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15 }}
           >
-            <div className="text-xs text-gray-500 tracking-widest font-mono mb-3">SCAN TYPE</div>
+            <div className="text-xs text-theme-muted tracking-widest font-mono mb-3">SCAN TYPE</div>
             <div className="space-y-4">
               {scanTypes.map((category) => (
                 <div key={category.category}>

@@ -18,7 +18,7 @@ export default function CyberCard({ children, className = '', glowColor = 'blue'
 
   return (
     <Wrapper
-      className={`relative bg-[#0d0d0f] border border-[#1a1d26] rounded-lg transition-all duration-300 ${glowMap[glowColor]} ${className}`}
+      className={`relative bg-theme-card border border-theme rounded-lg transition-all duration-300 ${glowMap[glowColor]} ${className}`}
       {...animProps}
       {...props}
     >

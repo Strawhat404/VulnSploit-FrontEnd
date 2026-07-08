@@ -45,14 +45,14 @@ function FindingCard({ finding, index }) {
           <span className={`text-xs font-mono font-bold tracking-widest px-2 py-0.5 rounded border ${cfg.border} ${cfg.color} ${cfg.bg}`}>
             {finding.severity?.toUpperCase()}
           </span>
-          <span className="text-xs text-gray-600 font-mono border border-[#1a1d26] px-2 py-0.5 rounded bg-black">
+          <span className="text-xs text-gray-600 font-mono border border-theme px-2 py-0.5 rounded bg-black">
             {finding.tool}
           </span>
         </div>
       </div>
 
       {/* Body */}
-      <div className="px-5 py-4 bg-[#0d0d0f] space-y-3">
+      <div className="px-5 py-4 bg-theme-card space-y-3">
         <div>
           <p className="text-xs text-gray-500 font-mono tracking-widest mb-1">DESCRIPTION</p>
           <p className="text-sm text-gray-300 leading-relaxed">{finding.description}</p>
@@ -67,7 +67,7 @@ function FindingCard({ finding, index }) {
         </div>
         <div>
           <p className="text-xs text-gray-500 font-mono tracking-widest mb-1">EVIDENCE</p>
-          <div className="bg-black rounded px-3 py-2 font-mono text-xs text-blue-300/80 break-all">
+          <div className="bg-theme-base rounded px-3 py-2 font-mono text-xs text-blue-300/80 break-all">
             {finding.evidence}
           </div>
         </div>
@@ -86,7 +86,7 @@ export default function ReportDetail() {
   const findings     = report?.findings_json   || [];
 
   return (
-    <div className="min-h-screen bg-black pt-20 pb-12 px-4">
+    <div className="min-h-screen bg-theme-base pt-20 pb-12 px-4">
       <div className="max-w-5xl mx-auto">
 
         {/* Breadcrumb */}
@@ -144,7 +144,7 @@ export default function ReportDetail() {
                 <button
                   onClick={() => refetch()}
                   disabled={isFetching}
-                  className="p-2 rounded border border-[#1a1d26] hover:border-blue-500/30 text-gray-500 hover:text-blue-400 transition-all"
+                  className="p-2 rounded border border-theme hover:border-blue-500/30 text-gray-500 hover:text-blue-400 transition-all"
                 >
                   <RefreshCw className={`w-4 h-4 ${isFetching ? 'animate-spin' : ''}`} />
                 </button>
@@ -179,7 +179,7 @@ export default function ReportDetail() {
                   { key: 'low',      label: 'Low',      color: 'text-blue-400',   border: 'border-blue-500/20' },
                   { key: 'info',     label: 'Info',     color: 'text-gray-400',   border: 'border-gray-500/20' },
                 ].map((s) => (
-                  <div key={s.key} className={`p-3 rounded-lg bg-[#0d0d0f] border ${s.border} text-center`}>
+                  <div key={s.key} className={`p-3 rounded-lg bg-theme-card border ${s.border} text-center`}>
                     <div className={`text-2xl font-bold ${s.color}`}>{counts[s.key] || 0}</div>
                     <div className="text-xs text-gray-600 font-mono mt-0.5">{s.label}</div>
                   </div>
@@ -202,7 +202,7 @@ export default function ReportDetail() {
                 </div>
 
                 {findings.length === 0 ? (
-                  <div className="flex items-center gap-3 p-6 rounded-lg bg-[#0d0d0f] border border-[#1a1d26] text-blue-400 font-mono text-sm">
+                  <div className="flex items-center gap-3 p-6 rounded-lg bg-theme-card border border-theme text-blue-400 font-mono text-sm">
                     <CheckCircle className="w-5 h-5" />
                     No significant vulnerabilities identified.
                   </div>

@@ -40,7 +40,7 @@ function TerminalDemo() {
   return (
     <div ref={ref} className="rounded-lg overflow-hidden border border-blue-500/20">
       {/* Terminal header */}
-      <div className="flex items-center gap-3 px-4 py-3 bg-[#252830] border-b border-[#1a1d26]">
+      <div className="flex items-center gap-3 px-4 py-3 bg-theme-term-hd border-b border-theme">
         <div className="flex gap-1.5">
           <span className="w-3 h-3 rounded-full bg-red-500/70" />
           <span className="w-3 h-3 rounded-full bg-yellow-500/70" />
@@ -49,7 +49,7 @@ function TerminalDemo() {
         <span className="text-xs text-gray-500 font-mono tracking-widest">vulnsploit — bash</span>
       </div>
       {/* Terminal body */}
-      <div className="bg-[#050507] p-5 min-h-[280px] font-mono text-sm">
+      <div className="bg-theme-input p-5 min-h-[280px] font-mono text-sm">
         {visibleLines.map((line, i) => (
           <motion.div
             key={i}
@@ -142,7 +142,7 @@ function StatCard({ value, label, index }) {
 
 export default function Landing() {
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden">
+    <div className="min-h-screen bg-theme-base text-white overflow-x-hidden">
       {/* Scanline overlay */}
       <div className="scanline-overlay" />
 
@@ -150,7 +150,7 @@ export default function Landing() {
       <div className="fixed inset-0 grid-bg opacity-50 pointer-events-none" />
 
       {/* ─── PUBLIC NAVBAR ─── */}
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-[#1a1d26] bg-black/90 backdrop-blur-md">
+      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-theme bg-black/90 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link to="/" className="flex items-center gap-2.5 group">
@@ -269,7 +269,7 @@ export default function Landing() {
               {['Automated Scanning', 'AI Reports', 'CVE Detection', 'SSL Analysis', 'Zero Config', 'Secure Access'].map((tag) => (
                 <span
                   key={tag}
-                  className="px-2.5 py-1 text-xs font-mono text-gray-500 border border-[#1a1d26] rounded bg-[#0d0d0f]"
+                  className="px-2.5 py-1 text-xs font-mono text-gray-500 border border-theme rounded bg-theme-card"
                 >
                   {tag}
                 </span>
@@ -304,7 +304,7 @@ export default function Landing() {
       </section>
 
       {/* ─── STATS ─── */}
-      <section className="py-16 border-y border-[#1a1d26] bg-[#050507]/50">
+      <section className="py-16 border-y border-theme bg-theme-input/50">
         <div className="max-w-4xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8">
           {stats.map((s, i) => (
             <StatCard key={s.label} {...s} index={i} />
@@ -342,9 +342,9 @@ export default function Landing() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
-                className={`relative p-6 rounded-lg bg-[#0d0d0f] border ${f.border} hover:bg-[#252830]/30 transition-all duration-300 group`}
+                className={`relative p-6 rounded-lg bg-theme-card border ${f.border} hover:bg-theme-term-hd/30 transition-all duration-300 group`}
               >
-                <div className={`w-10 h-10 rounded-lg bg-[#050507] border ${f.border} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+                <div className={`w-10 h-10 rounded-lg bg-theme-input border ${f.border} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
                   <f.icon className={`w-5 h-5 ${f.color}`} />
                 </div>
                 <h3 className="text-white font-semibold mb-2">{f.title}</h3>
@@ -356,7 +356,7 @@ export default function Landing() {
       </section>
 
       {/* ─── ARCHITECTURE ─── */}
-      <section id="architecture" className="py-24 px-4 bg-[#050507]/30 border-y border-[#1a1d26]">
+      <section id="architecture" className="py-24 px-4 bg-theme-input/30 border-y border-theme">
         <div className="max-w-5xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -404,9 +404,9 @@ export default function Landing() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.15 }}
-                className="relative p-6 rounded-lg bg-[#0d0d0f] border border-[#1a1d26] text-center"
+                className="relative p-6 rounded-lg bg-theme-card border border-theme text-center"
               >
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-[#050507] border border-[#1a1d26] rounded text-xs font-mono text-gray-500">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-2 py-0.5 bg-theme-input border border-theme rounded text-xs font-mono text-gray-500">
                   {item.tag}
                 </div>
                 <item.icon className={`w-8 h-8 ${item.color} mx-auto mb-3 mt-2`} />
@@ -434,7 +434,7 @@ export default function Landing() {
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="relative p-10 rounded-xl border border-blue-500/20 bg-[#0d0d0f] overflow-hidden"
+            className="relative p-10 rounded-xl border border-blue-500/20 bg-theme-card overflow-hidden"
           >
             {/* Background glow */}
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent pointer-events-none" />
@@ -459,7 +459,7 @@ export default function Landing() {
       </section>
 
       {/* ─── FOOTER ─── */}
-      <footer className="border-t border-[#1a1d26] py-10 px-4">
+      <footer className="border-t border-theme py-10 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-6">
             <Link to="/" className="flex items-center gap-2">
@@ -476,7 +476,7 @@ export default function Landing() {
               <Link to="/login"       className="hover:text-blue-400 transition-colors">Login</Link>
             </div>
           </div>
-          <div className="flex flex-col md:flex-row items-center justify-between gap-2 text-xs text-gray-700 font-mono border-t border-[#1a1d26] pt-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-2 text-xs text-gray-700 font-mono border-t border-theme pt-6">
             <span>VULNSPLOIT v1.0.0 — ALL RIGHTS RESERVED</span>
             <span className="text-yellow-600/60">⚠ FOR AUTHORIZED PENETRATION TESTING ONLY</span>
           </div>

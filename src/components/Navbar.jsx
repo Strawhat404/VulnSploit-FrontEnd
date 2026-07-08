@@ -3,9 +3,11 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Shield, History, LayoutDashboard, LogOut,
-  Zap, Menu, X, User, ChevronDown, FileText, Radar
+  Zap, Menu, X, User, ChevronDown, FileText, Radar,
+  Sun, Moon
 } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
+import { useThemeStore } from '../store/themeStore';
 
 const navLinks = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -26,6 +28,7 @@ export default function Navbar() {
   const location  = useLocation();
   const navigate  = useNavigate();
   const { logout, isAuthenticated, username } = useAuthStore();
+  const { theme, toggleTheme } = useThemeStore();
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -49,7 +52,7 @@ export default function Navbar() {
         initial={{ y: -60, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.4 }}
-        className="fixed top-0 left-0 right-0 z-50 border-b border-[#1a1d26] bg-[#050507]/95 backdrop-blur-md"
+        className="fixed top-0 left-0 right-0 z-50 border-b border-theme bg-theme-nav backdrop-blur-md"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
@@ -101,8 +104,20 @@ export default function Navbar() {
             {/* ── Right side ── */}
             <div className="flex items-center gap-2">
 
+              {/* Theme toggle */}
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded border border-theme hover:border-blue-500/30 text-gray-500 hover:text-blue-400 transition-all"
+                title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                {theme === 'dark'
+                  ? <Sun className="w-4 h-4" />
+                  : <Moon className="w-4 h-4" />
+                }
+              </button>
+
               {/* Version badge — desktop only */}
-              <span className="hidden lg:flex items-center gap-1.5 text-xs text-gray-700 font-mono border border-[#1a1d26] rounded px-2 py-1">
+              <span className="hidden lg:flex items-center gap-1.5 text-xs text-gray-700 font-mono border border-theme rounded px-2 py-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
                 v1.0.0
               </span>
@@ -123,7 +138,7 @@ export default function Navbar() {
                 <div className="relative hidden md:block">
                   <button
                     onClick={(e) => { e.stopPropagation(); setUserMenuOpen(!userMenuOpen); }}
-                    className="flex items-center gap-2 px-3 py-2 rounded border border-[#1a1d26] hover:border-blue-500/30 text-gray-400 hover:text-blue-300 transition-all text-sm"
+                    className="flex items-center gap-2 px-3 py-2 rounded border border-theme hover:border-blue-500/30 text-gray-400 hover:text-blue-300 transition-all text-sm"
                   >
                     <div className="w-6 h-6 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center">
                       <User className="w-3 h-3 text-blue-400" />
@@ -138,10 +153,10 @@ export default function Navbar() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 6, scale: 0.97 }}
                         transition={{ duration: 0.15 }}
-                        className="absolute right-0 top-full mt-2 w-44 bg-[#0d0d0f] border border-[#1a1d26] rounded-lg overflow-hidden shadow-xl"
+                        className="absolute right-0 top-full mt-2 w-44 bg-theme-card border border-theme rounded-lg overflow-hidden shadow-xl"
                         onClick={(e) => e.stopPropagation()}
                       >
-                        <div className="px-3 py-2.5 border-b border-[#1a1d26]">
+                        <div className="px-3 py-2.5 border-b border-theme">
                           <p className="text-xs text-gray-500 font-mono">SIGNED IN AS</p>
                           <p className="text-xs text-blue-400 font-mono font-semibold mt-0.5">{username || 'user'}</p>
                         </div>
@@ -162,7 +177,7 @@ export default function Navbar() {
               {isAuthenticated && (
                 <button
                   onClick={() => setMobileOpen(!mobileOpen)}
-                  className="md:hidden p-2 rounded border border-[#1a1d26] text-gray-400 hover:text-blue-400 hover:border-blue-500/30 transition-all"
+                  className="md:hidden p-2 rounded border border-theme text-gray-400 hover:text-blue-400 hover:border-blue-500/30 transition-all"
                 >
                   {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                 </button>
@@ -191,10 +206,10 @@ export default function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'tween', duration: 0.25 }}
-              className="fixed top-0 right-0 bottom-0 z-50 w-72 bg-[#0a0a0c] border-l border-[#1a1d26] flex flex-col md:hidden"
+              className="fixed top-0 right-0 bottom-0 z-50 w-72 bg-theme-card border-l border-theme flex flex-col md:hidden"
             >
               {/* Drawer header */}
-              <div className="flex items-center justify-between px-5 py-4 border-b border-[#1a1d26]">
+              <div className="flex items-center justify-between px-5 py-4 border-b border-theme">
                 <span className="font-black text-sm tracking-widest">
                   <span className="text-white">VULN</span>
                   <span className="text-blue-400">SPLOIT</span>
@@ -236,7 +251,7 @@ export default function Navbar() {
               </nav>
 
               {/* Drawer footer */}
-              <div className="px-3 py-4 border-t border-[#1a1d26] space-y-2">
+              <div className="px-3 py-4 border-t border-theme space-y-2">
                 <div className="flex items-center gap-3 px-4 py-2.5 rounded-lg bg-blue-500/5 border border-blue-500/10">
                   <div className="w-7 h-7 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center">
                     <User className="w-3.5 h-3.5 text-blue-400" />

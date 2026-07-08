@@ -61,7 +61,7 @@ export default function Login() {
   const isNetworkError = error?.type === 'network';
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-4 relative overflow-hidden">
+    <div className="min-h-screen bg-theme-base flex items-center justify-center px-4 relative overflow-hidden">
       <div className="fixed inset-0 grid-bg opacity-40 pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
 
@@ -71,14 +71,14 @@ export default function Login() {
         transition={{ duration: 0.5 }}
         className="relative w-full max-w-md"
       >
-        <div className="relative bg-[#0d0d0f] border border-blue-500/20 rounded-xl overflow-hidden">
+        <div className="relative bg-theme-card border border-blue-500/20 rounded-xl overflow-hidden">
           <span className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-blue-500/60" />
           <span className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-blue-500/60" />
           <span className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-blue-500/60" />
           <span className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-blue-500/60" />
 
           {/* Header */}
-          <div className="px-8 pt-8 pb-6 border-b border-[#1a1d26] text-center">
+          <div className="px-8 pt-8 pb-6 border-b border-theme text-center">
             <div className="relative inline-block mb-4">
               <Shield className="w-12 h-12 text-blue-400" />
             </div>
@@ -119,7 +119,7 @@ export default function Login() {
                   required
                   autoComplete="username"
                   placeholder="admin"
-                  className="w-full bg-[#050507] border border-[#1a1d26] rounded px-10 py-3 text-sm font-mono text-white placeholder-gray-700 focus:outline-none focus:border-blue-500/50 transition-all"
+                  className="w-full bg-theme-input border border-theme rounded px-10 py-3 text-sm font-mono text-white placeholder-gray-700 focus:outline-none focus:border-blue-500/50 transition-all"
                 />
               </div>
             </div>
@@ -138,7 +138,7 @@ export default function Login() {
                   required
                   autoComplete="current-password"
                   placeholder="••••••••"
-                  className="w-full bg-[#050507] border border-[#1a1d26] rounded px-10 py-3 text-sm font-mono text-white placeholder-gray-700 focus:outline-none focus:border-blue-500/50 transition-all"
+                  className="w-full bg-theme-input border border-theme rounded px-10 py-3 text-sm font-mono text-white placeholder-gray-700 focus:outline-none focus:border-blue-500/50 transition-all"
                 />
                 <button
                   type="button"
@@ -185,7 +185,7 @@ export default function Login() {
             </div>
           </form>
 
-          <div className="px-8 py-3 bg-[#050507] border-t border-[#1a1d26]">
+          <div className="px-8 py-3 bg-theme-input border-t border-theme">
             <p className="text-xs text-gray-700 text-center font-mono">
               <span className="text-blue-400/50">$</span> New here?{' '}
               <Link to="/register" className="text-blue-400/70 hover:text-blue-400 transition-colors">

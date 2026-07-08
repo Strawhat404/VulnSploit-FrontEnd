@@ -10,8 +10,8 @@ import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell
 } from 'recharts';
 
-const BORDER  = 'border-[#1a1d26]';
-const CARD_BG = 'bg-[#0d0d0f]';
+const BORDER  = 'border-theme';
+const CARD_BG = 'bg-theme-card';
 
 function StatCard({ icon: Icon, label, value, color, delay }) {
   return (
@@ -25,7 +25,7 @@ function StatCard({ icon: Icon, label, value, color, delay }) {
       <span className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-blue-500/25" />
       <div className="flex items-center justify-between mb-3">
         <span className="text-xs text-gray-500 tracking-widest font-mono">{label}</span>
-        <div className="w-8 h-8 rounded bg-black border border-[#1a1d26] flex items-center justify-center">
+        <div className="w-8 h-8 rounded bg-theme-base border border-theme flex items-center justify-center">
           <Icon className={`w-4 h-4 ${color}`} />
         </div>
       </div>
@@ -66,7 +66,7 @@ export default function Dashboard() {
   const recentScans = scans.slice(0, 6);
 
   return (
-    <div className="min-h-screen bg-black pt-20 pb-12 px-4">
+    <div className="min-h-screen bg-theme-base pt-20 pb-12 px-4">
       <div className="max-w-7xl mx-auto">
 
         {/* ── Header ── */}
@@ -76,7 +76,7 @@ export default function Dashboard() {
           className="flex items-center justify-between mb-8"
         >
           <div>
-            <div className="flex items-center gap-2 text-xs text-gray-600 font-mono mb-1">
+            <div className="flex items-center gap-2 text-xs text-theme-faint font-mono mb-1">
               <Terminal className="w-3 h-3 text-blue-400" />
               <span>root@vulnsploit:~$</span>
             </div>

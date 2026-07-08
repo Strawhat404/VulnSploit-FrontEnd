@@ -24,7 +24,7 @@ export default function Reports() {
   const downloadReport = useDownloadReport();
 
   return (
-    <div className="min-h-screen bg-black pt-20 pb-12 px-4">
+    <div className="min-h-screen bg-theme-base pt-20 pb-12 px-4">
       <div className="max-w-6xl mx-auto">
 
         {/* Header */}
@@ -55,9 +55,9 @@ export default function Reports() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="rounded-lg bg-[#0d0d0f] border border-[#1a1d26] overflow-hidden"
+          className="rounded-lg bg-theme-card border border-theme overflow-hidden"
         >
-          <div className="hidden md:grid grid-cols-12 gap-4 px-5 py-3 border-b border-[#1a1d26] text-xs text-gray-600 font-mono tracking-widest">
+          <div className="hidden md:grid grid-cols-12 gap-4 px-5 py-3 border-b border-theme text-xs text-gray-600 font-mono tracking-widest">
             <span className="col-span-1">#</span>
             <span className="col-span-3">TARGET</span>
             <span className="col-span-2">RISK</span>
@@ -141,7 +141,7 @@ export default function Reports() {
                         {report.status === 'ready' && (
                           <button
                             onClick={(e) => { e.preventDefault(); e.stopPropagation(); downloadReport(report.id, report.target); }}
-                            className="p-1.5 rounded border border-[#1a1d26] hover:border-blue-500/30 text-gray-600 hover:text-blue-400 transition-all"
+                            className="p-1.5 rounded border border-theme hover:border-blue-500/30 text-gray-600 hover:text-blue-400 transition-all"
                             title="Download PDF"
                           >
                             <Download className="w-3.5 h-3.5" />

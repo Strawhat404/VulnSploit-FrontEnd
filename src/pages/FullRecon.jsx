@@ -45,7 +45,7 @@ export default function FullRecon() {
   };
 
   return (
-    <div className="min-h-screen bg-black pt-20 pb-12 px-4">
+    <div className="min-h-screen bg-theme-base pt-20 pb-12 px-4">
       <div className="max-w-3xl mx-auto">
 
         {/* Header */}
@@ -71,7 +71,7 @@ export default function FullRecon() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="p-5 rounded-lg bg-[#0d0d0f] border border-[#1a1d26] mb-6"
+          className="p-5 rounded-lg bg-theme-card border border-theme mb-6"
         >
           <div className="text-xs text-gray-500 tracking-widest font-mono mb-4">
             TOOLS THAT WILL RUN IN SEQUENCE
@@ -83,9 +83,9 @@ export default function FullRecon() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.1 + i * 0.05 }}
-                className="flex items-center gap-2 px-3 py-2.5 rounded border border-[#1a1d26] bg-black"
+                className="flex items-center gap-2 px-3 py-2.5 rounded border border-theme bg-black"
               >
-                <div className="flex items-center justify-center w-6 h-6 rounded bg-[#0d0d0f] border border-[#1a1d26] flex-shrink-0">
+                <div className="flex items-center justify-center w-6 h-6 rounded bg-theme-card border border-theme flex-shrink-0">
                   <span className="text-xs text-gray-500 font-mono">{i + 1}</span>
                 </div>
                 <div>
@@ -109,7 +109,7 @@ export default function FullRecon() {
           onSubmit={handleSubmit}
           className="space-y-4"
         >
-          <div className="p-5 rounded-lg bg-[#0d0d0f] border border-[#1a1d26]">
+          <div className="p-5 rounded-lg bg-theme-card border border-theme">
             <label className="block text-xs text-gray-500 tracking-widest font-mono mb-3">
               TARGET
             </label>
@@ -121,7 +121,7 @@ export default function FullRecon() {
                 onChange={(e) => setTarget(e.target.value)}
                 placeholder="example.com  |  192.168.1.1"
                 required
-                className="w-full bg-[#050507] border border-[#1a1d26] rounded px-10 py-3 text-sm font-mono text-white placeholder-gray-700 focus:outline-none focus:border-blue-500/50 transition-all"
+                className="w-full bg-theme-input border border-theme rounded px-10 py-3 text-sm font-mono text-white placeholder-gray-700 focus:outline-none focus:border-blue-500/50 transition-all"
               />
             </div>
             <p className="text-xs text-gray-700 mt-2 font-mono">

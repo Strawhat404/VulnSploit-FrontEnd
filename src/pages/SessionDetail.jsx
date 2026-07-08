@@ -9,8 +9,8 @@ import { useSession, useGenerateReport } from '../hooks/useReports';
 import StatusBadge from '../components/StatusBadge';
 import TerminalOutput from '../components/TerminalOutput';
 
-const BORDER  = 'border-[#1a1d26]';
-const CARD_BG = 'bg-[#0d0d0f]';
+const BORDER  = 'border-theme';
+const CARD_BG = 'bg-theme-card';
 
 const TOOL_ORDER = ['subfinder', 'whatweb', 'quick', 'nikto', 'gobuster', 'nuclei', 'full', 'sqlmap'];
 
@@ -62,7 +62,7 @@ export default function SessionDetail() {
     : [];
 
   return (
-    <div className="min-h-screen bg-black pt-20 pb-12 px-4">
+    <div className="min-h-screen bg-theme-base pt-20 pb-12 px-4">
       <div className="max-w-5xl mx-auto">
 
         {/* Breadcrumb */}

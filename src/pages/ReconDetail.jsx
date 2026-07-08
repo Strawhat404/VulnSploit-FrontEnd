@@ -41,7 +41,7 @@ function ToolRow({ scan, index }) {
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: index * 0.05 }}
-      className="flex items-center gap-4 px-5 py-3.5 border-b border-[#1a1d26] last:border-0"
+      className="flex items-center gap-4 px-5 py-3.5 border-b border-theme last:border-0"
     >
       <span className="text-xs text-gray-600 font-mono w-5">{index + 1}</span>
       <div className="flex-shrink-0">{statusIcon[scan?.status] || statusIcon.pending}</div>
@@ -88,7 +88,7 @@ export default function ReconDetail() {
   (session?.scans || []).forEach(s => { scanMap[s.scan_type] = s; });
 
   return (
-    <div className="min-h-screen bg-black pt-20 pb-12 px-4">
+    <div className="min-h-screen bg-theme-base pt-20 pb-12 px-4">
       <div className="max-w-3xl mx-auto">
 
         {/* Breadcrumb */}
@@ -133,7 +133,7 @@ export default function ReconDetail() {
                 <button
                   onClick={() => refetch()}
                   disabled={isFetching}
-                  className="p-2 rounded border border-[#1a1d26] hover:border-blue-500/30 text-gray-500 hover:text-blue-400 transition-all"
+                  className="p-2 rounded border border-theme hover:border-blue-500/30 text-gray-500 hover:text-blue-400 transition-all"
                 >
                   <RefreshCw className={`w-4 h-4 ${isFetching ? 'animate-spin' : ''}`} />
                 </button>
@@ -145,7 +145,7 @@ export default function ReconDetail() {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="p-4 rounded-lg bg-[#0d0d0f] border border-[#1a1d26] mb-6"
+                className="p-4 rounded-lg bg-theme-card border border-theme mb-6"
               >
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs text-gray-500 font-mono">PROGRESS</span>
@@ -172,9 +172,9 @@ export default function ReconDetail() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="rounded-lg bg-[#0d0d0f] border border-[#1a1d26] overflow-hidden mb-6"
+              className="rounded-lg bg-theme-card border border-theme overflow-hidden mb-6"
             >
-              <div className="px-5 py-3 border-b border-[#1a1d26]">
+              <div className="px-5 py-3 border-b border-theme">
                 <span className="text-xs text-gray-400 tracking-widest font-mono">SCAN TOOLS</span>
               </div>
               {TOOL_ORDER.map((toolType, i) => (
@@ -192,7 +192,7 @@ export default function ReconDetail() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="p-5 rounded-lg bg-[#0d0d0f] border border-[#1a1d26]"
+                className="p-5 rounded-lg bg-theme-card border border-theme"
               >
                 <div className="flex items-center gap-2 mb-4">
                   <FileText className="w-4 h-4 text-blue-400" />
