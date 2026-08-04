@@ -47,9 +47,10 @@ export default function Login() {
     try {
       const res = await axios.post(
         `${BASE_URL}/api/token/`,
-        form
+        form,
+        { withCredentials: true },
       );
-      setTokens(res.data.access, res.data.refresh, form.username);
+      setTokens(res.data.access, form.username);
       navigate('/dashboard');
     } catch (err) {
       setError(parseLoginError(err));

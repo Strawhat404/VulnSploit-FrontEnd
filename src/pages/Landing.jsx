@@ -4,8 +4,9 @@ import { motion, useInView } from 'framer-motion';
 import {
   Shield, Zap, Terminal, Globe, Search, Lock,
   ChevronRight, ArrowRight, Cpu, Network, Bug,
-  Activity, Database, Code2
+  Activity, Database, Code2, Sun, Moon
 } from 'lucide-react';
+import { useThemeStore } from '../store/themeStore';
 
 // Animated typing terminal demo
 const terminalLines = [
@@ -141,6 +142,7 @@ function StatCard({ value, label, index }) {
 }
 
 export default function Landing() {
+  const { theme, toggleTheme } = useThemeStore();
   return (
     <div className="min-h-screen bg-theme-base text-white overflow-x-hidden">
       {/* Scanline overlay */}
@@ -150,7 +152,7 @@ export default function Landing() {
       <div className="fixed inset-0 grid-bg opacity-50 pointer-events-none" />
 
       {/* ─── PUBLIC NAVBAR ─── */}
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-theme bg-black/90 backdrop-blur-md">
+      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-theme bg-theme-nav backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link to="/" className="flex items-center gap-2.5 group">
@@ -170,19 +172,33 @@ export default function Landing() {
               <a href="#cta"           className="hover:text-blue-400 transition-colors">Get Started</a>
             </div>
 
-            <Link
-              to="/login"
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-bold tracking-widest rounded hover:bg-blue-500 transition-all"
-            >
-              <Lock className="w-4 h-4" />
-              <span>LOGIN</span>
-            </Link>
-            <Link
-              to="/register"
-              className="hidden sm:flex items-center gap-2 px-4 py-2 border border-blue-500/30 text-blue-400 text-sm font-bold tracking-widest rounded hover:bg-blue-500/10 transition-all"
-            >
-              REGISTER
-            </Link>
+            <div className="flex items-center gap-3">
+              {/* Theme toggle */}
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded border border-blue-500/20 text-gray-400 hover:text-blue-400 hover:border-blue-500/40 transition-all"
+                title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                {theme === 'dark'
+                  ? <Sun className="w-4 h-4" />
+                  : <Moon className="w-4 h-4" />
+                }
+              </button>
+
+              <Link
+                to="/login"
+                className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-bold tracking-widest rounded hover:bg-blue-500 transition-all"
+              >
+                <Lock className="w-4 h-4" />
+                <span>LOGIN</span>
+              </Link>
+              <Link
+                to="/register"
+                className="hidden sm:flex items-center gap-2 px-4 py-2 border border-blue-500/30 text-blue-400 text-sm font-bold tracking-widest rounded hover:bg-blue-500/10 transition-all"
+              >
+                REGISTER
+              </Link>
+            </div>
           </div>
         </div>
       </nav>

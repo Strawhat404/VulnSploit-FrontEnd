@@ -86,7 +86,7 @@ export default function ReportDetail() {
   const findings     = report?.findings_json   || [];
 
   return (
-    <div className="min-h-screen bg-theme-base pt-20 pb-12 px-4">
+    <div className="min-h-screen bg-theme-base pt-6 pb-12 px-6">
       <div className="max-w-5xl mx-auto">
 
         {/* Breadcrumb */}

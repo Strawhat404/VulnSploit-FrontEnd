@@ -3,10 +3,11 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   Zap, Terminal, Globe, Bug, Search, Network,
-  Activity, Shield, AlertTriangle, ChevronRight, Layers
+  Activity, Shield, AlertTriangle, ChevronRight, Layers, ChevronDown,
 } from 'lucide-react';
 import { useCreateScan } from '../hooks/useScans';
 import { useCreateSession } from '../hooks/useReports';
+import { useTargets } from '../hooks/useTargets';
 
 const BORDER  = 'border-theme';
 const CARD_BG = 'bg-theme-card';
@@ -89,17 +90,21 @@ export default function NewScan() {
 
   const { mutateAsync: createScan,    isLoading: scanLoading }    = useCreateScan();
   const { mutateAsync: createSession, isLoading: sessionLoading } = useCreateSession();
+  const { data: savedTargets = [] } = useTargets();
 
-  const [target, setTarget]           = useState('');
+  const [target, setTarget]           = useState(searchParams.get('target') || '');
   const [selectedType, setSelectedType] = useState(searchParams.get('type') || '');
   const [error, setError]             = useState('');
+  const [showTargets, setShowTargets] = useState(false);
 
   const isLoading = scanLoading || sessionLoading;
   const isFullRecon = selectedType === 'full_recon';
 
   useEffect(() => {
-    const t = searchParams.get('type');
-    if (t) setSelectedType(t);
+    const tgt = searchParams.get('target');
+    if (tgt) setTarget(tgt);
+    const tp = searchParams.get('type');
+    if (tp) setSelectedType(tp);
   }, [searchParams]);
 
   const handleSubmit = async (e) => {
@@ -129,7 +134,7 @@ export default function NewScan() {
     .find((t) => t.value === selectedType);
 
   return (
-    <div className="min-h-screen bg-theme-base pt-20 pb-12 px-4">
+    <div className="min-h-screen bg-theme-base pt-6 pb-12 px-6">
       <div className="max-w-4xl mx-auto">
 
         {/* Header */}
@@ -159,6 +164,33 @@ export default function NewScan() {
             <label className="block text-xs text-theme-muted tracking-widest font-mono mb-3">
               TARGET
             </label>
+            {savedTargets.length > 0 && (
+              <div className="relative mb-2">
+                <button
+                  type="button"
+                  onClick={() => setShowTargets(!showTargets)}
+                  className="flex items-center gap-2 w-full bg-theme-input border border-theme rounded px-3 py-2 text-xs font-mono text-gray-500 hover:text-gray-300 hover:border-blue-500/30 transition-all"
+                >
+                  <ChevronDown className={`w-3 h-3 transition-transform ${showTargets ? 'rotate-180' : ''}`} />
+                  Select from saved targets
+                </button>
+                {showTargets && (
+                  <div className="absolute z-10 mt-1 w-full bg-theme-card border border-theme rounded-lg overflow-hidden shadow-xl max-h-48 overflow-y-auto">
+                    {savedTargets.map((t) => (
+                      <button
+                        key={t.id}
+                        type="button"
+                        onClick={() => { setTarget(t.value); setShowTargets(false); }}
+                        className="w-full text-left px-3 py-2 text-xs font-mono text-gray-400 hover:text-white hover:bg-blue-500/10 transition-all border-b border-theme last:border-0"
+                      >
+                        <span className="text-white">{t.name}</span>
+                        <span className="text-gray-600 ml-2">{t.value}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
             <div className="relative">
               <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-600" />
               <input

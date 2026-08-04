@@ -1,10 +1,12 @@
+import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   Terminal, ChevronRight, Clock, Target, Cpu,
-  RefreshCw, Calendar, Hash, Zap, History
+  RefreshCw, Calendar, Hash, Zap, History, XCircle
 } from 'lucide-react';
 import { useScan } from '../hooks/useScans';
+import api from '../lib/axios';
 import StatusBadge from '../components/StatusBadge';
 import TerminalOutput from '../components/TerminalOutput';
 
@@ -21,12 +23,23 @@ function InfoRow({ icon: Icon, label, value }) {
 export default function ScanDetail() {
   const { id } = useParams();
   const { data: scan, isLoading, refetch, isFetching } = useScan(id);
+  const [cancelling, setCancelling] = useState(false);
 
   const status    = scan?.status ?? null;
   const isRunning = status === 'running' || status === 'pending';
 
+  const cancelScan = async () => {
+    if (!confirm('Cancel this scan?')) return;
+    setCancelling(true);
+    try {
+      await api.post(`/api/scans/${id}/cancel/`);
+      refetch();
+    } catch {}
+    setCancelling(false);
+  };
+
   return (
-    <div className="min-h-screen bg-theme-base pt-20 pb-12 px-4">
+    <div className="min-h-screen bg-theme-base pt-6 pb-12 px-6">
       <div className="max-w-5xl mx-auto">
 
         {/* ── Breadcrumb ── */}
@@ -74,6 +87,16 @@ export default function ScanDetail() {
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
                 <StatusBadge scan={scan} size="md" />
+                {isRunning && (
+                  <button
+                    onClick={cancelScan}
+                    disabled={cancelling}
+                    className="p-2 rounded border border-red-500/30 text-red-400 hover:bg-red-500/10 transition-all"
+                    title="Cancel scan"
+                  >
+                    <XCircle className={`w-4 h-4 ${cancelling ? 'animate-spin' : ''}`} />
+                  </button>
+                )}
                 <button
                   onClick={() => refetch()}
                   disabled={isFetching}

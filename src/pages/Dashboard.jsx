@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -5,6 +6,7 @@ import {
   ArrowRight, Terminal, TrendingUp
 } from 'lucide-react';
 import { useScans } from '../hooks/useScans';
+import api from '../lib/axios';
 import StatusBadge from '../components/StatusBadge';
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell
@@ -48,11 +50,16 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 export default function Dashboard() {
   const { data: scans = [], isLoading } = useScans();
+  const [stats, setStats] = useState(null);
 
-  const total     = scans.length;
-  const completed = scans.filter((s) => s.status === 'completed').length;
-  const running   = scans.filter((s) => s.status === 'running' || s.status === 'pending').length;
-  const errors    = scans.filter((s) => s.status === 'failed').length;
+  useEffect(() => {
+    api.get('/api/stats/').then((res) => setStats(res.data)).catch(() => {});
+  }, []);
+
+  const total     = stats?.total ?? scans.length;
+  const completed = stats?.completed ?? scans.filter((s) => s.status === 'completed').length;
+  const running   = stats?.running ?? scans.filter((s) => s.status === 'running' || s.status === 'pending').length;
+  const errors    = stats?.failed ?? scans.filter((s) => s.status === 'failed').length;
 
   const typeCounts = scans.reduce((acc, s) => {
     acc[s.scan_type] = (acc[s.scan_type] || 0) + 1;
@@ -66,7 +73,7 @@ export default function Dashboard() {
   const recentScans = scans.slice(0, 6);
 
   return (
-    <div className="min-h-screen bg-theme-base pt-20 pb-12 px-4">
+    <div className="min-h-screen bg-theme-base pt-6 pb-12 px-6">
       <div className="max-w-7xl mx-auto">
 
         {/* ── Header ── */}

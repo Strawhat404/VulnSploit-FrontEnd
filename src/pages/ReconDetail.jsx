@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -5,6 +6,7 @@ import {
   FileText, CheckCircle, Loader2, XCircle, Clock, Zap
 } from 'lucide-react';
 import { useReconSession } from '../hooks/useRecon';
+import api from '../lib/axios';
 import StatusBadge from '../components/StatusBadge';
 
 const TOOL_ORDER = ['subfinder', 'whatweb', 'testssl', 'headers', 'quick', 'nikto', 'gobuster', 'nuclei', 'sqlmap'];
@@ -74,11 +76,22 @@ function ToolRow({ scan, index }) {
 }
 
 export default function ReconDetail() {
-  const { id }    = useParams();
-  const navigate  = useNavigate();
+  const { id }      = useParams();
+  const navigate    = useNavigate();
   const { data: session, isLoading, refetch, isFetching } = useReconSession(id);
+  const [cancelling, setCancelling] = useState(false);
 
   const isRunning  = session?.status === 'running' || session?.status === 'pending';
+
+  const cancelRecon = async () => {
+    if (!confirm('Cancel this recon session? All running scans will be terminated.')) return;
+    setCancelling(true);
+    try {
+      await api.post(`/api/recon/${id}/cancel/`);
+      refetch();
+    } catch {}
+    setCancelling(false);
+  };
   const completed  = session?.completed_scans || 0;
   const total      = session?.total_scans || TOOL_ORDER.length;
   const progress   = total > 0 ? Math.round((completed / total) * 100) : 0;
@@ -88,7 +101,7 @@ export default function ReconDetail() {
   (session?.scans || []).forEach(s => { scanMap[s.scan_type] = s; });
 
   return (
-    <div className="min-h-screen bg-theme-base pt-20 pb-12 px-4">
+    <div className="min-h-screen bg-theme-base pt-6 pb-12 px-6">
       <div className="max-w-3xl mx-auto">
 
         {/* Breadcrumb */}
@@ -130,6 +143,16 @@ export default function ReconDetail() {
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
                 <StatusBadge scan={session} />
+                {isRunning && (
+                  <button
+                    onClick={cancelRecon}
+                    disabled={cancelling}
+                    className="p-2 rounded border border-red-500/30 text-red-400 hover:bg-red-500/10 transition-all"
+                    title="Cancel recon"
+                  >
+                    <XCircle className={`w-4 h-4 ${cancelling ? 'animate-spin' : ''}`} />
+                  </button>
+                )}
                 <button
                   onClick={() => refetch()}
                   disabled={isFetching}

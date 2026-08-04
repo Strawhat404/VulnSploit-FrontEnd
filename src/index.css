@@ -28,11 +28,11 @@
 
 /* ─── CSS Variables — Light ────────────────────────────────────────────────── */
 html.light {
-  --bg-base:        #f0f4f8;
-  --bg-card:        #ffffff;
-  --bg-card-hover:  #f1f5f9;
-  --bg-input:       #f8fafc;
-  --bg-nav:         rgba(255, 255, 255, 0.95);
+  --bg-base:        #ffffff;
+  --bg-card:        #f1f5f9;
+  --bg-card-hover:  #e8edf5;
+  --bg-input:       #ffffff;
+  --bg-nav:         rgba(255, 255, 255, 0.97);
   --bg-terminal:    #1e293b;
   --bg-terminal-hd: #334155;
 
@@ -153,3 +153,87 @@ body {
 }
 .hex-corner::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
 .hex-corner::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+/* ─── Light mode text fixes ────────────────────────────────────────────────── */
+/* text-white becomes near-black in light mode so titles stay readable */
+html.light .text-white {
+  color: #0f172a !important;
+}
+
+/* Inputs, textareas — white text becomes dark */
+html.light input,
+html.light select,
+html.light textarea {
+  color: #0f172a !important;
+  background-color: #f8fafc !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* gray text hierarchy */
+html.light .text-gray-300 { color: #334155 !important; }
+html.light .text-gray-400 { color: #475569 !important; }
+html.light .text-gray-500 { color: #64748b !important; }
+html.light .text-gray-600 { color: #64748b !important; }
+html.light .text-gray-700 { color: #94a3b8 !important; }
+
+/* Dividers */
+html.light .divide-\[#1a1d26\] > * + * {
+  border-color: #e2e8f0 !important;
+}
+
+/* Progress bar track */
+html.light .bg-\[#1a1d26\] {
+  background-color: #e2e8f0 !important;
+}
+
+/* white text inside blue buttons and badges should stay white */
+html.light .bg-blue-600,
+html.light .bg-blue-500 {
+  color: #ffffff !important;
+}
+
+/* ─── Light mode background fixes ─────────────────────────────────────────── */
+/* Tool cards and inner boxes — card color with blue border */
+html.light .bg-black {
+  background-color: #f1f5f9 !important;
+  border-color: rgba(59, 130, 246, 0.2) !important;
+}
+
+/* Finding tool tag badge */
+html.light .bg-theme-base {
+  background-color: #f0f4f8 !important;
+}
+
+/* Warning banner */
+html.light .bg-yellow-500\/5 {
+  background-color: rgba(251, 191, 36, 0.15) !important;
+}
+html.light .border-yellow-500\/20 {
+  border-color: rgba(180, 83, 9, 0.4) !important;
+}
+html.light .text-yellow-500\/70 {
+  color: #92400e !important;
+}
+html.light .text-yellow-500 {
+  color: #b45309 !important;
+}
+html.light .text-yellow-400 {
+  color: #b45309 !important;
+}
+
+/* Error banner */
+html.light .bg-red-500\/5 {
+  background-color: rgba(239, 68, 68, 0.08) !important;
+}
+
+/* Cyan info banners */
+html.light .bg-cyan-500\/5 {
+  background-color: rgba(6, 182, 212, 0.08) !important;
+}
+html.light .text-cyan-500\/40 {
+  color: #0891b2 !important;
+}
