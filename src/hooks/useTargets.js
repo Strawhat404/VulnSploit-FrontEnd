@@ -57,3 +57,52 @@ export const useDeleteTarget = () => {
     },
   });
 };
+
+// Prove ownership of a target (DNS TXT record or well-known file) so it can be scanned.
+export const useVerifyTarget = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, method }) => {
+      const res = await api.post(`/api/targets/${id}/verify/`, {
+        method,
+        confirm_authorization: true,
+      });
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['targets'] });
+    },
+  });
+};
+
+// Add many targets at once (one per line in the UI). Each line succeeds or fails on its own.
+export const useBulkCreateTargets = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (values) => {
+      const res = await api.post('/api/targets/bulk/', { values });
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['targets'] });
+    },
+  });
+};
+
+// Verify several targets with the same method in one request (max 20).
+export const useBulkVerifyTargets = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ ids, method }) => {
+      const res = await api.post('/api/targets/verify-bulk/', {
+        ids,
+        method,
+        confirm_authorization: true,
+      });
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['targets'] });
+    },
+  });
+};
