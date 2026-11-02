@@ -26,6 +26,7 @@ export default function ScheduledScans() {
   const [schedules, setSchedules] = useState([]);
   const [form, setForm] = useState({ target: '', scan_type: 'quick', cron: '' });
   const [showForm, setShowForm] = useState(false);
+  const [error, setError] = useState('');
 
   const fetch = () => api.get('/api/scheduled-scans/').then((r) => setSchedules(r.data?.results ?? r.data)).catch(() => {});
 
@@ -33,14 +34,21 @@ export default function ScheduledScans() {
 
   const create = async (e) => {
     e.preventDefault();
-    await api.post('/api/scheduled-scans/', form);
+    setError('');
+    try {
+      await api.post('/api/scheduled-scans/', form);
+    } catch (err) {
+      const d = err.response?.data;
+      setError(d?.detail || d?.target?.[0] || d?.cron?.[0] || d?.scan_type?.[0] || 'Could not create the schedule.');
+      return;
+    }
     setForm({ target: '', scan_type: 'quick', cron: '' });
     setShowForm(false);
     fetch();
   };
 
   const toggle = async (s) => {
-    await api.put(`/api/scheduled-scans/${s.id}/`, { is_active: !s.is_active });
+    await api.patch(`/api/scheduled-scans/${s.id}/`, { is_active: !s.is_active });
     fetch();
   };
 
@@ -93,6 +101,7 @@ export default function ScheduledScans() {
                   </button>
                 ))}
               </div>
+              {error && <p className="text-xs font-mono text-red-400">{error}</p>}
               <div className="flex gap-3">
                 <button type="submit" className="px-4 py-2 bg-blue-600 text-white text-xs font-bold tracking-widest rounded hover:bg-blue-500 transition-all">CREATE</button>
                 <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 border border-[#1a1d26] text-gray-500 text-xs font-mono rounded hover:text-white transition-all">CANCEL</button>
@@ -125,9 +134,18 @@ export default function ScheduledScans() {
                     <p className="text-xs font-mono text-gray-400">{s.cron}</p>
                   </div>
                   <div className="col-span-2">
-                    <span className={`text-xs font-mono px-2 py-0.5 rounded ${s.is_active ? 'bg-green-500/10 text-green-400' : 'bg-gray-500/10 text-gray-500'}`}>
-                      {s.is_active ? 'Active' : 'Paused'}
-                    </span>
+                    {s.is_active && s.blocked_reason ? (
+                      <span
+                        className="text-xs font-mono px-2 py-0.5 rounded bg-yellow-500/10 text-yellow-500 cursor-help"
+                        title={`Not running: ${s.blocked_reason}`}
+                      >
+                        Blocked
+                      </span>
+                    ) : (
+                      <span className={`text-xs font-mono px-2 py-0.5 rounded ${s.is_active ? 'bg-green-500/10 text-green-400' : 'bg-gray-500/10 text-gray-500'}`}>
+                        {s.is_active ? 'Active' : 'Paused'}
+                      </span>
+                    )}
                   </div>
                   <div className="col-span-2 flex items-center justify-end gap-2">
                     <button onClick={() => toggle(s)} className="p-1.5 rounded border border-[#1a1d26] text-gray-500 hover:text-blue-400 transition-all">
