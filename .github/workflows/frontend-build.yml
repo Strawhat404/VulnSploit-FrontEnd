@@ -1,0 +1,35 @@
+name: Frontend build
+
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop, main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: frontend-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Frontend build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18        # matches the Dockerfile build stage
+          cache: npm
+
+      - name: Install (lockfile must be in sync)
+        run: npm ci
+
+      # Lint is not enforced yet: the codebase currently has ~65 pre-existing
+      # lint errors (mostly react/prop-types). Add `npm run lint` here once cleaned up.
+      - name: Production build
+        run: npm run build
